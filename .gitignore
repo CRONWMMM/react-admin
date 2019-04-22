@@ -1,0 +1,9 @@
+.idea
+.idea/
+.vscode
+.vscode/
+.DS_Store
+node_modules/
+.project
+npm-debug.log
+dist/
