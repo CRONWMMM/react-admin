@@ -7,3 +7,4 @@ node_modules/
 .project
 npm-debug.log
 dist/
+yarn-error.log
