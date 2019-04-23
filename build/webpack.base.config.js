@@ -16,7 +16,12 @@ module.exports = {
         filename: '[name].[hash].js'
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        alias: {
+            '@': path.resolve(__dirname, '../src'),
+            views: path.resolve(__dirname, '../src/views'),
+            routes: path.resolve(__dirname, '../src/router')
+        }
     },
     module: {
         rules: [
@@ -30,6 +35,17 @@ module.exports = {
                 test: /.jsx$/,
                 loader: 'babel-loader',
                 include: [path.resolve(__dirname, '../src')]
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            attrs: ['img:src', 'img:data-src']
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(eot|woff2|woff|ttf|svg)$/,

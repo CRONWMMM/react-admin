@@ -7,4 +7,5 @@ node_modules/
 .project
 npm-debug.log
 dist/
+yarn.lock
 yarn-error.log
