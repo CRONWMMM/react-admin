@@ -1,3 +1,4 @@
+const path = require('path')
 const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
 const baseConfig = require('./webpack.base.config')
@@ -11,10 +12,7 @@ module.exports = webpackMerge(baseConfig, {
         overlay: {
             errors: true
         },
-        publicPath: '/public/',
-        historyApiFallback: {
-            index: '/public/index.html'
-        },
+        historyApiFallback: true,
         proxy: {}
     },
     module: {
