@@ -12,9 +12,9 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, '../dist'),
-        publicPath: '/',
-        chunkFilename: isDev ? '[name].chunk.js' : '[name].[contenthash:8].chunk.js',
-        filename: isDev ? '[name].bundle.js' : '[name].[contenthash:8].js'
+        publicPath: isDev ? '/' : './',
+        chunkFilename: isDev ? '[name].chunk.js' : '[name].chunk.[contenthash:8].js',
+        filename: isDev ? '[name].bundle.js' : '[name].min.[contenthash:8].js'
     },
     resolve: {
         extensions: ['.js', '.jsx'],
@@ -75,7 +75,8 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../index.html'),
-            filename: 'index.html'
+            filename: 'index.html',
+            chunks: isDev ? 'app' : [ 'runtime', 'vendors', 'app' ]
         }),
     ]
 }

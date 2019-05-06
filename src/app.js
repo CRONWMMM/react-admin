@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import Routes from '../src/router'
 
 const root = document.getElementById('root')
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <Routes></Routes>
-    </BrowserRouter>,
+    </HashRouter>,
     root
 )

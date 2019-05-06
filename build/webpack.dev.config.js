@@ -22,7 +22,7 @@ module.exports = webpackMerge(baseConfig, {
                 use: [
                     'style-loader',
                     'css-loader',
-                    'less-loader'
+                    'less-loader?javascriptEnabled=true'
                 ]
             }
         ]
