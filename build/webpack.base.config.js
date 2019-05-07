@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, '../dist'),
-        publicPath: isDev ? '/' : './',
+        publicPath: '/',
         chunkFilename: isDev ? '[name].chunk.js' : '[name].chunk.[contenthash:8].js',
         filename: isDev ? '[name].bundle.js' : '[name].min.[contenthash:8].js'
     },

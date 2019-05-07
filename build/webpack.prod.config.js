@@ -60,8 +60,7 @@ module.exports = webpackMerge(baseConfig, {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendors',
                     minChunks: 2,
-                    chunks: 'all',
-                    priority: 100
+                    chunks: 'all'
                 }
             }
         },
