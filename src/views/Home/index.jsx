@@ -1,5 +1,6 @@
 import React from 'react'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import './style.less'
 
 const {
     Header, Content, Footer, Sider
@@ -25,14 +26,14 @@ class Home extends React.Component {
 
     render () {
         return (
-            <Layout style={{ minHeight: '100vh' }}>
+            <Layout className="app-layout">
                 <Sider
                     trigger={null}
                     collapsible
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}>
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                        <div className="logo" style={{ height: '32px', background: 'rgba(255,255,255,.2)', margin: '16px' }}></div>
+                        <div className="logo" className="app-logo"></div>
                         <Menu.Item key="1">
                             <Icon type="pie-chart" />
                             <span>Option 1</span>

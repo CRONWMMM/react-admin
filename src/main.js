@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './views/app'
+import './common/less/reset.less'
 
 const root = document.getElementById('root')
 
