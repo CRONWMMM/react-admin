@@ -1,6 +1,7 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
-import './style.less'
+import Routes from '../../router'
+import './App.less'
 
 const {
     Header, Content, Footer, Sider
@@ -9,7 +10,7 @@ const {
     SubMenu
 } = Menu
 
-class Home extends React.Component {
+class App extends React.Component {
     state = {
         collapsed: false
     }
@@ -63,17 +64,12 @@ class Home extends React.Component {
                             <Breadcrumb.Item>User</Breadcrumb.Item>
                             <Breadcrumb.Item>Bill</Breadcrumb.Item>
                         </Breadcrumb>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            Bill is a cat.
-                        </div>
+                        <Routes></Routes>
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>
-                        Ant Design ©2018 React-Admin
-                    </Footer>
                 </Layout>
             </Layout>
         )
     }
 }
 
-export default Home
+export default App
