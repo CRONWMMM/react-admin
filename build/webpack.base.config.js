@@ -7,8 +7,8 @@ module.exports = {
     entry: {
         app: (isDev => isDev ? [
             'react-hot-loader/patch',
-            path.resolve(__dirname, '../src/app')
-        ] : path.resolve(__dirname, '../src/app'))(isDev)
+            path.resolve(__dirname, '../src/main')
+        ] : path.resolve(__dirname, '../src/main'))(isDev)
     },
     output: {
         path: path.resolve(__dirname, '../dist'),

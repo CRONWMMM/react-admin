@@ -12,6 +12,7 @@ module.exports = webpackMerge(baseConfig, {
         overlay: {
             errors: true
         },
+        open: true,
         historyApiFallback: true,
         proxy: {}
     },
