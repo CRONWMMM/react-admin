@@ -1,7 +1,11 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+// router
 import Routes from '../../router'
+// style
 import './App.less'
+// components
+import Avatar from '../../components/Avatar/Avatar'
 
 const {
     Header, Content, Sider
@@ -54,15 +58,22 @@ class App extends React.Component {
                 </Sider>
                 <Layout>
                     <Header className="app-header">
-                        <Icon
-                            className="app-menu"
-                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle} />
+                        {/* left part */}
+                        <div className="left">
+                            <Icon
+                                className="app-menu"
+                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.toggle} />
+                            <Breadcrumb className="app-breadcrumb">
+                                <Breadcrumb.Item>User</Breadcrumb.Item>
+                                <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                        {/* right part */}
+                        <div className="right">
+                            <Avatar />
+                        </div>
                     </Header>
-                    <Breadcrumb className="app-breadcrumb">
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
                     <Content className="app-main">
                         <Routes></Routes>
                     </Content>

@@ -1,0 +1,17 @@
+@import "../../common/less/variables.less";
+@import "../../common/less/mixins.less";
+
+@avatar-size: 30px;
+
+.avatar {
+  .bgc(#ccc);
+  .bg-default(cover);
+  background-image: url(../../assets/images/avatar.jpg);
+  display: inline-block;
+  width: @avatar-size;
+  height: @avatar-size;
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+  }
+}
