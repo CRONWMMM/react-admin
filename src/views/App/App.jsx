@@ -4,7 +4,7 @@ import Routes from '../../router'
 import './App.less'
 
 const {
-    Header, Content, Footer, Sider
+    Header, Content, Sider
 } = Layout
 const {
     SubMenu
@@ -27,14 +27,14 @@ class App extends React.Component {
 
     render () {
         return (
-            <Layout className="app-layout">
+            <Layout className="app-wrapper">
                 <Sider
                     trigger={null}
                     collapsible
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}>
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                        <div className="logo" className="app-logo"></div>
+                        <i className="iconfont iconreact app-logo"></i>
                         <Menu.Item key="1">
                             <Icon type="pie-chart" />
                             <span>Option 1</span>
@@ -53,17 +53,17 @@ class App extends React.Component {
                     </Menu>
                 </Sider>
                 <Layout>
-                    <Header style={{ background: '#fff', padding: 0 }}>
+                    <Header className="app-header">
                         <Icon
-                            style={{ fontSize: '26px', marginLeft: '10px', padding: '0 20px' }}
+                            className="app-menu"
                             type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                             onClick={this.toggle} />
                     </Header>
-                    <Content style={{ margin: '0 16px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>User</Breadcrumb.Item>
-                            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Breadcrumb className="app-breadcrumb">
+                        <Breadcrumb.Item>User</Breadcrumb.Item>
+                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <Content className="app-main">
                         <Routes></Routes>
                     </Content>
                 </Layout>

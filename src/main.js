@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './views/App/App'
 import './common/less/reset.less'
+import './common/less/iconfont.less'
 
 const root = document.getElementById('root')
 
