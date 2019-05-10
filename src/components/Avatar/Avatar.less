@@ -3,15 +3,26 @@
 
 @avatar-size: 30px;
 
-.avatar {
-  .bgc(#ccc);
-  .bg-default(cover);
-  background-image: url(../../assets/images/avatar.jpg);
-  display: inline-block;
-  width: @avatar-size;
-  height: @avatar-size;
-  border-radius: 50%;
+.avatar-wrap {
+  display: flex;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
+  .avatar {
+    .bgc(#ccc);
+    .bg-default(cover);
+    background-image: url(../../assets/images/avatar.jpg);
+    display: inline-block;
+    width: @avatar-size;
+    height: @avatar-size;
+    border-radius: 50%;
+  }
+  .user-name {
+    .ellipsis();
+    max-width: 120px;
+    margin: 0 10px;
+  }
 }
+
+

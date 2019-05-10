@@ -71,7 +71,10 @@ class App extends React.Component {
                         </div>
                         {/* right part */}
                         <div className="right">
-                            <Avatar />
+                            <a href="#" className="header-part header-icon">
+                                <Icon type="fullscreen" />
+                            </a>
+                            <Avatar className="header-part" />
                         </div>
                     </Header>
                     <Content className="app-main">
