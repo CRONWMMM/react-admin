@@ -2,8 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
 import { AppContainer } from 'react-hot-loader'
-// import Login from './views/Login/Login'
-import App from './views/App/App'
+import Main from './views/Main/Main'
 import './common/less/reset.less'
 import './common/less/iconfont.less'
 
@@ -20,11 +19,11 @@ function render(Component) {
     )
 }
 
-render(App)
+render(Main)
 
 if (module.hot) {
-    module.hot.accept('./views/App/App', () => {
-        const { default: NewApp } = require('./views/App/App')
-        render(NewApp)
+    module.hot.accept('./views/Main/Main', () => {
+        const { default: Main } = require('./views/Main/Main')
+        render(Main)
     })
 }
