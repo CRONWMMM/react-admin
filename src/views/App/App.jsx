@@ -50,7 +50,7 @@ class App extends React.Component {
                             key="sub2"
                             title={<span><Icon type="file-done" /><span>案例</span></span>}>
                             <Menu.Item key="sub2-item1">灭霸的响指</Menu.Item>
-                            <Menu.Item key="sub2-item2">music</Menu.Item>
+                            <Menu.Item key="sub2-item2">音乐播放器</Menu.Item>
                         </SubMenu>
                         <SubMenu
                             key="sub3"

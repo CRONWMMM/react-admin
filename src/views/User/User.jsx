@@ -1,8 +1,13 @@
 import React from 'react'
+import './User.less'
 
 class User extends React.Component {
     render() {
-        return (<div>This is User Page.</div>)
+        return (
+            <div className="user-page">
+                This is User Page.
+            </div>
+        )
     }
 }
 
