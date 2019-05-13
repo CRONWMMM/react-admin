@@ -26,7 +26,7 @@ export default function asyncComponent(importComponent) {
 
         // 最后，如果完成渲染，我们有条件地提供组件。在这里我们如果不写null的话，也可提供一个菊花图，代表着组件正在渲染。
         render() {
-            const Component = this.state.component
+            const { component: Component } = this.state
             return Component ? <Component {...this.props} /> : null
         }
     }

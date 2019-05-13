@@ -29,15 +29,16 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.js$/,
-                loader: 'babel-loader',
-                include: [path.resolve(__dirname, '../src')],
+                test: /.js[x]?$/,
+                enforce: 'pre',
+                loader: 'eslint-loader?fix=true',
                 exclude: /node_modules/
             },
             {
-                test: /.jsx$/,
+                test: /.js[x]?$/,
                 loader: 'babel-loader',
-                include: [path.resolve(__dirname, '../src')]
+                include: [path.resolve(__dirname, '../src')],
+                exclude: /node_modules/
             },
             {
                 test: /\.html$/,
