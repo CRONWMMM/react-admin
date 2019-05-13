@@ -24,7 +24,7 @@ class Avatar extends React.Component {
 
         return (
             <Dropdown overlay={UserMenu} placement="bottomCenter" trigger={[ 'click' ]}>
-                <div className="avatar-wrap">
+                <div className="avatar-component">
                     <span className="avatar"></span>
                     <span className="user-name">不写 bug 的米公子</span>
                     <Icon type="caret-down" />

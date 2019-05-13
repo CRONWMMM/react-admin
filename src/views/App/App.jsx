@@ -6,6 +6,7 @@ import Routes from '../../router'
 import './App.less'
 // components
 import Avatar from '../../components/Avatar/Avatar'
+import PageTags from "../../components/PageTags/PageTags";
 
 const {
     Header, Content, Sider
@@ -39,21 +40,37 @@ class App extends React.Component {
                     onCollapse={this.onCollapse}>
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                         <i className="iconfont iconreact app-logo"></i>
-                        <Menu.Item key="1">
-                            <Icon type="pie-chart" />
-                            <span>Option 1</span>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <Icon type="desktop" />
-                            <span>Option 2</span>
-                        </Menu.Item>
                         <SubMenu
                             key="sub1"
-                            title={<span><Icon type="user" /><span>User</span></span>}>
-                            <Menu.Item key="3">Tom</Menu.Item>
-                            <Menu.Item key="4">Bill</Menu.Item>
-                            <Menu.Item key="5">Alex</Menu.Item>
+                            title={<span><Icon type="pie-chart" /><span>数据可视化</span></span>}>
+                            <Menu.Item key="sub1-item1">图表</Menu.Item>
+                            <Menu.Item key="sub1-item2">热力图</Menu.Item>
                         </SubMenu>
+                        <SubMenu
+                            key="sub2"
+                            title={<span><Icon type="file-done" /><span>案例</span></span>}>
+                            <Menu.Item key="sub2-item1">灭霸的响指</Menu.Item>
+                            <Menu.Item key="sub2-item2">music</Menu.Item>
+                        </SubMenu>
+                        <SubMenu
+                            key="sub3"
+                            title={<span><Icon type="apartment" /><span>组件</span></span>}>
+                            <Menu.Item key="sub3-item1">图片剪裁</Menu.Item>
+                            <Menu.Item key="sub3-item2">表格</Menu.Item>
+                            <Menu.Item key="sub3-item3">拖拽</Menu.Item>
+                        </SubMenu>
+                        <Menu.Item key="sub4">
+                            <Icon type="dot-chart" />
+                            <span>数据埋点</span>
+                        </Menu.Item>
+                        <Menu.Item key="sub5">
+                            <Icon type="user" />
+                            <span>个人中心</span>
+                        </Menu.Item>
+                        <Menu.Item key="sub6">
+                            <Icon type="setting" />
+                            <span>系统设置</span>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>
@@ -77,6 +94,7 @@ class App extends React.Component {
                             <Avatar className="header-part" />
                         </div>
                     </Header>
+                    <PageTags />
                     <Content className="app-main">
                         <Routes></Routes>
                     </Content>
