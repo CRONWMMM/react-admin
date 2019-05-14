@@ -5,7 +5,7 @@ import App from '../App/App'
 
 class Main extends React.Component {
     render () {
-        const IS_LOGIN = true
+        const IS_LOGIN = false
         if (IS_LOGIN) {
             return (<App />)
         } else {

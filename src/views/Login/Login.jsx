@@ -1,5 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import './Login.less'
+// action
+import { loginAction } from '../../store/action/action'
 // components
 import LoginForm from './components/LoginForm/LoginForm'
 
@@ -13,4 +16,12 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        isLogin: state.loginState === 1 ? true : false
+    }
+}
+const mapDispatchToProps = { loginAction }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
