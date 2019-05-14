@@ -1,6 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-// components
+// action
 import {
     Form,
     // Icon,
@@ -8,11 +9,26 @@ import {
     Button,
     Checkbox
 } from 'antd'
+import { updateUserInfo } from '../../../../store/action/userAction'
+// components
 import './LoginForm.less'
 
 class LoginForm extends React.Component {
     static propTypes = {
-        className: PropTypes.string
+        className: PropTypes.string,
+        updateUserInfo: PropTypes.func
+    }
+
+    constructor(props) {
+        super(props)
+    }
+
+    login = () => {
+        const { updateUserInfo } = this.props
+        updateUserInfo({
+            username: 'CRONWMMM',
+            password: 'ooo'
+        });
     }
 
     render() {
@@ -32,11 +48,22 @@ class LoginForm extends React.Component {
                 <Checkbox className="float-left">记住密码</Checkbox>
                 <a href="#" className="float-right">忘记密码</a>
               </div>
-              <Button type="primary" htmlType="submit" className="login-btn">登录</Button>
+              <Button type="primary" htmlType="submit" className="login-btn" onClick={this.login}>登录</Button>
             </FormItem>
           </Form>
         )
     }
 }
 
-export default LoginForm
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.userInfo
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUserInfo: (data) => dispatch(updateUserInfo(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

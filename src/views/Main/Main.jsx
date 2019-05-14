@@ -1,12 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
 // views
+import PropTypes from "prop-types";
 import Login from '../Login/Login'
 import App from '../App/App'
 
 class Main extends React.Component {
+    static propTypes = {
+        isLogin: PropTypes.bool
+    }
+
     render () {
-        const IS_LOGIN = false
-        if (IS_LOGIN) {
+        const { isLogin } = this.props
+
+        if (isLogin) {
             return (<App />)
         } else {
             return (<Login />)
@@ -14,4 +21,12 @@ class Main extends React.Component {
     }
 }
 
-export default Main
+
+const mapStateToProps = (state) => {
+    const { username } = state.userInfo
+    return {
+        isLogin: !!username
+    }
+}
+
+export default connect(mapStateToProps)(Main)
