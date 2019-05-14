@@ -1,5 +1,6 @@
-import loginState from './loginState'
-
 export default {
-    ...loginState
+    userInfo: {
+        username: '',
+        password: ''
+    }
 }

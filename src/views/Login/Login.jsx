@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './Login.less'
 // action
-import { loginAction } from '../../store/action/action'
+import { updateUserInfo } from '../../store/action/userAction'
 // components
 import LoginForm from './components/LoginForm/LoginForm'
 
@@ -19,9 +19,9 @@ class Login extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        isLogin: state.loginState === 1 ? true : false
+        userInfo: state.userInfo
     }
 }
-const mapDispatchToProps = { loginAction }
+const mapDispatchToProps = { updateUserInfo }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
