@@ -25,23 +25,35 @@ class LoginForm extends React.Component {
         super(props)
     }
 
-    handleSubmit = () => {
+    /**
+     * 登录表单提交
+     * @param e
+     */
+    handleSubmit = e => {
+        e.preventDefault()
         const { form: { validateFields } } = this.props
-        validateFields(err => {
+        validateFields((err, values) => {
             if (err) {
                 message.warning('请按要求填写表单')
             } else {
-                this.login()
+                const { username, password } = values
+                console.log(values)
+                this.login(username, password)
             }
         })
     }
 
-    login = () => {
+    /**
+     * 登录
+     * @param username
+     * @param password
+     */
+    login = (username, password) => {
         const { updateUserInfo } = this.props
         updateUserInfo({
-            username: 'CRONWMMM',
-            password: 'ooo'
-        });
+            username,
+            password
+        })
     }
 
     render() {
@@ -51,14 +63,14 @@ class LoginForm extends React.Component {
         return (
           <Form className={[ 'login-form-component', className ]}
                 onSubmit={this.handleSubmit}>
-            <FormItem>
+            <FormItem label="用户名">
               {getFieldDecorator('username', {
-                rules: [{ required: true, message: '请填写用户名' }]
+                  rules: [{ required: true, message: '请填写用户名' }]
               })(<Input placeholder="用户名" />)}
             </FormItem>
-            <FormItem>
+            <FormItem label="密码">
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请填写密码' }]
+                  rules: [{ required: true, message: '请填写密码' }]
               })(<Input type="password" placeholder="密码" />)}
             </FormItem>
             <FormItem>
@@ -73,13 +85,13 @@ class LoginForm extends React.Component {
     }
 }
 
-const LoginFormWrap = Form.create({ name: 'loginForm' })(LoginForm)
 
-const mapStateToProps = (state) => {
-    return {
-        userInfo: state.userInfo
-    }
-}
+const LoginFormWrap = Form.create({ name: 'loginForm' })(LoginForm);
+
+const mapStateToProps = (state) => ({
+    userInfo: state.userInfo
+})
+
 const mapDispatchToProps = (dispatch) => {
     return {
         updateUserInfo: (data) => dispatch(updateUserInfo(data))
