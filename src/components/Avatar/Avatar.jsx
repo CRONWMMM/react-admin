@@ -1,15 +1,25 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, Dropdown, Icon } from 'antd'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+// actions
+import { updateUserInfo } from '../../store/action/userAction'
 import './Avatar.less'
 
 class Avatar extends React.Component {
     static propTypes = {
-        username: PropTypes.string
+        username: PropTypes.string,
+        logoffUserInfo: PropTypes.func.isRequired
     }
 
     state = {}
+
+    logout = e => {
+        const { logoffUserInfo } = this.props
+        e.preventDefault()
+        logoffUserInfo()
+    }
 
     render() {
         const { Item: MenuItem } = Menu
@@ -17,14 +27,14 @@ class Avatar extends React.Component {
         const UserMenu = (
           <Menu>
             <MenuItem>
-              <a href="#">个人中心</a>
+              <Link to="/user">个人中心</Link>
             </MenuItem>
             <MenuItem>
               <a href="#">项目地址</a>
             </MenuItem>
             <Menu.Divider />
             <MenuItem>
-              <a href="#">退出登录</a>
+              <a href="#" onClick={this.logout}>退出登录</a>
             </MenuItem>
           </Menu>
         )
@@ -43,10 +53,15 @@ class Avatar extends React.Component {
 
 const mapStateToProps = state => {
     const { username } = state.userInfo
-
     return {
         username
     }
 }
 
-export default connect(mapStateToProps)(Avatar)
+const mapDispatchToProps = dispatch => {
+    return {
+        logoffUserInfo: () => dispatch(updateUserInfo({ username: '', password: '' }))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Avatar)
