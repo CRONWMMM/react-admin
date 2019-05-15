@@ -87,11 +87,10 @@ class LoginForm extends React.Component {
 
 const LoginFormWrap = Form.create({ name: 'loginForm' })(LoginForm);
 
-const mapStateToProps = (state) => {
-    return {
-        userInfo: state.userInfo
-    }
-}
+const mapStateToProps = (state) => ({
+    userInfo: state.userInfo
+})
+
 const mapDispatchToProps = (dispatch) => {
     return {
         updateUserInfo: (data) => dispatch(updateUserInfo(data))

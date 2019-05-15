@@ -1,12 +1,19 @@
 import React from 'react'
 import { Menu, Dropdown, Icon } from 'antd'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import './Avatar.less'
 
 class Avatar extends React.Component {
+    static propTypes = {
+        username: PropTypes.string
+    }
+
     state = {}
 
     render() {
         const { Item: MenuItem } = Menu
+        const { username } = this.props
         const UserMenu = (
           <Menu>
             <MenuItem>
@@ -26,7 +33,7 @@ class Avatar extends React.Component {
           <Dropdown overlay={UserMenu} placement="bottomCenter" trigger={[ 'click' ]}>
             <div className="avatar-component">
               <span className="avatar"></span>
-              <span className="user-name">不写 bug 的米公子</span>
+              <span className="user-name">{username || '不写 bug 的米公子'}</span>
               <Icon type="caret-down" />
             </div>
           </Dropdown>
@@ -34,4 +41,12 @@ class Avatar extends React.Component {
     }
 }
 
-export default Avatar
+const mapStateToProps = state => {
+    const { username } = state.userInfo
+
+    return {
+        username
+    }
+}
+
+export default connect(mapStateToProps)(Avatar)
