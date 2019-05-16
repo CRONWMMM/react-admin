@@ -3,7 +3,7 @@ export default {
         username: '',
         password: ''
     },
-    pageTabs: [{
+    pageTags: [{
         name: '首页',
         key: '/home',
         path: '/'
