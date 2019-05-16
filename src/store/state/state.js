@@ -3,5 +3,9 @@ export default {
         username: '',
         password: ''
     },
-    history: [] // 历史记录
+    pageTabs: [{
+        name: '首页',
+        key: '/home',
+        path: '/'
+    }] // 访问过的页面 tabs 列表
 }

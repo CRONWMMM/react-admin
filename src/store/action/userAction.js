@@ -1,11 +1,11 @@
-import { USERINFO_UPDATE } from './types'
+import { UPDATE_USERINFO } from './types'
 
 function updateUserInfo (data = {
     username: '',
     password: ''
 }) {
     return {
-        type: USERINFO_UPDATE,
+        type: UPDATE_USERINFO,
         payload: {
             data
         },

@@ -1,8 +1,8 @@
-import { USERINFO_UPDATE } from '../action/types'
+import { UPDATE_USERINFO } from '../action/types'
 
 function userInfo (state = {}, { type, payload }) {
     switch (type) {
-        case USERINFO_UPDATE:
+        case UPDATE_USERINFO:
             return payload.data
         default:
             return state

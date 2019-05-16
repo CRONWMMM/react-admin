@@ -11,7 +11,8 @@ class Main extends React.Component {
     }
 
     render () {
-        const { isLogin } = this.props
+        // const { isLogin } = this.props
+        const isLogin = true
 
         if (isLogin) {
             return (<App />)
