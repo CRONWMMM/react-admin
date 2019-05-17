@@ -1,5 +1,6 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { Link } from 'react-router-dom'
 // router
 import Routes from '../../router'
 // style
@@ -43,34 +44,42 @@ class App extends React.Component {
                 onCollapse={this.onCollapse}>
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 <i className="iconfont iconreact app-logo"></i>
+                <Menu.Item key="sub1">
+                  <Link to="/">
+                    <Icon type="home" />
+                    <span>首页</span>
+                  </Link>
+                </Menu.Item>
                 <SubMenu
-                        key="sub1"
-                        title={<span><Icon type="pie-chart" /><span>数据可视化</span></span>}>
+                    key="sub2"
+                    title={<span><Icon type="pie-chart" /><span>数据可视化</span></span>}>
                   <Menu.Item key="sub1-item1">图表</Menu.Item>
                   <Menu.Item key="sub1-item2">热力图</Menu.Item>
                 </SubMenu>
                 <SubMenu
-                        key="sub2"
-                        title={<span><Icon type="file-done" /><span>案例</span></span>}>
+                    key="sub3"
+                    title={<span><Icon type="file-done" /><span>案例</span></span>}>
                   <Menu.Item key="sub2-item1">灭霸的响指</Menu.Item>
                   <Menu.Item key="sub2-item2">音乐播放器</Menu.Item>
                 </SubMenu>
                 <SubMenu
-                        key="sub3"
-                        title={<span><Icon type="apartment" /><span>组件</span></span>}>
+                    key="sub4"
+                    title={<span><Icon type="apartment" /><span>组件</span></span>}>
                   <Menu.Item key="sub3-item1">图片剪裁</Menu.Item>
                   <Menu.Item key="sub3-item2">表格</Menu.Item>
                   <Menu.Item key="sub3-item3">拖拽</Menu.Item>
                 </SubMenu>
-                <Menu.Item key="sub4">
+                <Menu.Item key="sub5">
                   <Icon type="dot-chart" />
                   <span>数据埋点</span>
                 </Menu.Item>
-                <Menu.Item key="sub5">
-                  <Icon type="user" />
-                  <span>个人中心</span>
-                </Menu.Item>
                 <Menu.Item key="sub6">
+                  <Link to="/user">
+                    <Icon type="user" />
+                    <span>个人中心</span>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="sub7">
                   <Icon type="setting" />
                   <span>系统设置</span>
                 </Menu.Item>
@@ -80,10 +89,9 @@ class App extends React.Component {
               <Header className="app-header">
                 {/* left part */}
                 <div className="left">
-                  <Icon
-                            className="app-menu"
-                            type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle} />
+                  <Icon className="app-menu"
+                        type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                        onClick={this.toggle} />
                   <Breadcrumb className="app-breadcrumb">
                     <Breadcrumb.Item>User</Breadcrumb.Item>
                     <Breadcrumb.Item>Bill</Breadcrumb.Item>

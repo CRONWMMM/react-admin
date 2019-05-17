@@ -29,7 +29,7 @@ class PageTags extends React.Component {
     componentWillMount() {
         const { history: $history } = this.props
         $history.listen(() => {
-            this.updateTags()
+            setTimeout(this.updateTags, 0)
         })
     }
 
@@ -45,6 +45,9 @@ class PageTags extends React.Component {
         if (changeLock) return
 
         switch (pathname) {
+            case '/':
+                tagInfo.name = '首页'
+                break
             case '/user':
                 tagInfo.name = '用户主页'
                 break
@@ -68,7 +71,7 @@ class PageTags extends React.Component {
         tags = tags.filter((tag) => tag.key !== page.key)
         let nextPathname = tags[tags.length - 1].path || '/'
         this.setState({ tags })
-        if (nextPathname !== pathname) $history.push(nextPathname)
+        if (page.path === pathname && nextPathname !== pathname) $history.push(nextPathname)
     }
 
     /**
@@ -81,7 +84,11 @@ class PageTags extends React.Component {
         return tags.map((page) => {
             const closable = length > 1
             return (
-                <Tag closable={closable} key={page.key} onClose={() => this.handleTagClose(page)}>
+                <Tag
+                    closable={closable}
+                    key={page.key}
+                    color={page.path === pathname ? '#108ee9' : null}
+                    onClose={() => this.handleTagClose(page)}>
                     {page.path && page.path !== pathname ? <Link to={page.path}>{page.name}</Link> : page.name}
                 </Tag>
             )
