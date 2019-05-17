@@ -1,37 +1,49 @@
 /* eslint-disable */
 import React from 'react'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 // actions
 import { Row, Tag } from 'antd'
-import { addPageTag, deletePageTag } from '../../store/action/pageTagsAction'
 // components
 import './PageTags.less'
 
 class PageTags extends React.Component {
     static propTypes = {
-        pageTags: PropTypes.array.isRequired,
         history: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        deletePageTag: PropTypes.func.isRequired
+        location: PropTypes.object.isRequired
+    }
+
+    state = {
+        changeLock: false, // 线程锁
+        tags: [
+            {
+                name: '首页',
+                key: '/home',
+                path: '/'
+            }
+        ]
     }
 
     componentWillMount() {
-        const {  history: $history } = this.props
-        $history.listen(this.updatePageTags)
+        const { history: $history } = this.props
+        $history.listen(() => {
+            this.updateTags()
+        })
     }
 
     componentDidMount() {
-        this.updatePageTags()
+        this.updateTags()
     }
 
-    updatePageTags = () => {
-        const { location: { pathname }, addPageTag, pageTags } = this.props
-
+    updateTags = () => {
+        const { location: { pathname } } = this.props
+        let { changeLock, tags } = this.state
         let tagInfo = { path: pathname, key: pathname }
+
+        if (changeLock) return
+
         switch (pathname) {
             case '/user':
                 tagInfo.name = '用户主页'
@@ -40,7 +52,10 @@ class PageTags extends React.Component {
                 tagInfo.name = '用户信息'
                 break
         }
-        tagInfo.name && pageTags.every(({ path }) => path !== pathname) && addPageTag(tagInfo)
+        if (tagInfo.name && tags.every(({ path }) => path !== pathname)) {
+            tags = [...tags, tagInfo]
+        }
+        this.setState({ tags, changeLock: false })
     }
 
     /**
@@ -48,22 +63,26 @@ class PageTags extends React.Component {
      * @params page {Object} 需要关闭的标签对象信息
      */
     handleTagClose = (page) => {
-        const { deletePageTag } = this.props
-        deletePageTag(page)
+        const { history: $history, location: { pathname } } = this.props
+        let { tags } = this.state
+        tags = tags.filter((tag) => tag.key !== page.key)
+        let nextPathname = tags[tags.length - 1].path || '/'
+        this.setState({ tags })
+        if (nextPathname !== pathname) $history.push(nextPathname)
     }
 
     /**
      * 生成 Tags 组件列表
      */
     generatorTags = () => {
-        const { pageTags } = this.props
-        const { length } = pageTags
-
-        return pageTags.map((page, index) => {
+        const { location: { pathname } } = this.props
+        const { tags } = this.state
+        const { length } = tags
+        return tags.map((page) => {
             const closable = length > 1
             return (
-                <Tag closable={closable} key={index} onClose={() => this.handleTagClose(page, index)}>
-                    {page.path ? <Link to={page.path}>{page.name}</Link> : page.name}
+                <Tag closable={closable} key={page.key} onClose={() => this.handleTagClose(page)}>
+                    {page.path && page.path !== pathname ? <Link to={page.path}>{page.name}</Link> : page.name}
                 </Tag>
             )
         })
@@ -81,13 +100,4 @@ class PageTags extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    pageTags: state.pageTags
-})
-
-const mapDispatchToProps = dispatch => ({
-    deletePageTag: (data) => dispatch(deletePageTag(data)),
-    addPageTag: (data) => dispatch(addPageTag(data))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PageTags))
+export default withRouter(PageTags)
