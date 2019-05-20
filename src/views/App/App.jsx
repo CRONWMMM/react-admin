@@ -1,6 +1,8 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 import { Link } from 'react-router-dom'
+// utils
+import { fullScreen, normalScreen } from 'libs/utils';
 // router
 import Routes from '../../router'
 // style
@@ -18,14 +20,30 @@ const {
 
 class App extends React.Component {
     state = {
-        collapsed: false
+        collapsed: false, // 左侧主菜单是否折叠，默认否
+        fullScreen: false // 是否是全屏，默认否
     }
 
+    /**
+     * 切换左侧主菜单折叠
+     * @param collapsed {Boolean} 展开/折叠
+     */
     onCollapse = (collapsed) => {
         this.setState({ collapsed })
     }
 
-    toggle = () => {
+    /**
+     * 切换屏幕尺寸（全屏/非全屏）
+     */
+    toggleScreen = () => {
+        const { fullScreen: isFullScreen } = this.state
+        isFullScreen ? normalScreen() : fullScreen()
+        this.setState({
+            fullScreen: !isFullScreen
+        })
+    }
+
+    toggleMenu = () => {
         const { collapsed } = this.state
         this.setState({
             collapsed: !collapsed,
@@ -33,7 +51,7 @@ class App extends React.Component {
     }
 
     render () {
-        const { collapsed } = this.state
+        const { collapsed, fullScreen } = this.state
 
         return (
           <Layout className="app-wrapper">
@@ -91,7 +109,7 @@ class App extends React.Component {
                 <div className="left">
                   <Icon className="app-menu"
                         type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                        onClick={this.toggle} />
+                        onClick={this.toggleMenu} />
                   <Breadcrumb className="app-breadcrumb">
                     <Breadcrumb.Item>User</Breadcrumb.Item>
                     <Breadcrumb.Item>Bill</Breadcrumb.Item>
@@ -99,9 +117,7 @@ class App extends React.Component {
                 </div>
                 {/* right part */}
                 <div className="right">
-                  <a href="#" className="header-part header-icon">
-                    <Icon type="fullscreen" />
-                  </a>
+                  <Icon className="header-part header-icon" type={fullScreen ? 'fullscreen-exit' : 'fullscreen'} onClick={this.toggleScreen} />
                   <Avatar className="header-part" />
                 </div>
               </Header>
