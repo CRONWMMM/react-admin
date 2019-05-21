@@ -25,7 +25,7 @@ module.exports = {
             common: path.resolve(__dirname, '../src/common'),
             components: path.resolve(__dirname, '../src/components'),
             less: path.resolve(__dirname, '../src/common/less'),
-            routes: path.resolve(__dirname, '../src/router')
+            router: path.resolve(__dirname, '../src/router')
         }
     },
     module: {

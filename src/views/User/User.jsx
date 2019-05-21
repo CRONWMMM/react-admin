@@ -1,10 +1,8 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import asyncComponent from '../../router/AsyncComponent'
+import routes from 'router/config'
 import './User.less'
-
-const AsyncUserInfo = asyncComponent(() => import(/* webpackChunkName: "UserInfo" */'./subPages/UserInfo/UserInfo'))
 
 class User extends React.Component {
     static propTypes = {
@@ -12,10 +10,33 @@ class User extends React.Component {
     }
 
     render() {
+        const rootRoute = routes.find(route => route.name === 'user') || {}
+        const userSubRoutes = rootRoute.children || []
+        const rootPath = rootRoute.path || '/'
+
         return (
           <div className="user-page">
                 This is User Page.
-            <Route path="/user/:id" key="/userInfo" component={AsyncUserInfo} />
+            {
+                  userSubRoutes.map(route => {
+                      const { exact, path, name, redirect, component } = route
+                      if (!redirect) {
+                          return (
+                            <Route exact={exact ? true : false}
+                                   path={`${rootPath}/${path}`}
+                                   key={name || path}
+                                   component={component} />
+                          )
+                      } else {
+                          return (
+                            <Route exact={exact ? true : false}
+                                   path={`${rootPath}/${path}`}
+                                   key={name || path}
+                                   render={() => (<Redirect to={redirect} />)} />
+                          )
+                      }
+                  })
+              }
           </div>
         )
     }

@@ -28,7 +28,7 @@ render(Main)
 
 if (module.hot) {
     module.hot.accept('./views/Main/Main', () => {
-        const { default: Main } = require('./views/Main/Main')
-        render(Main)
+        const { default: NewMain } = require('./views/Main/Main')
+        render(NewMain)
     })
 }
