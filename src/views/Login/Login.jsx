@@ -6,7 +6,7 @@ import LoginForm from './components/LoginForm/LoginForm'
 class Login extends React.Component {
     render() {
         return (
-          <div className="login">
+          <div className="login-page">
             <LoginForm className="login-form trans-vertical-center" />
           </div>
         )
