@@ -23,7 +23,16 @@ module.exports = webpackMerge(baseConfig, {
                 use: [
                     'style-loader',
                     'css-loader',
-                    'less-loader?javascriptEnabled=true'
+                    'less-loader?javascriptEnabled=true',
+                    {
+                        loader: 'sass-resources-loader',
+                        options: {
+                            resources: [
+                                path.resolve(__dirname, '../src/common/less/variables.less'),
+                                path.resolve(__dirname, '../src/common/less/mixins.less')
+                            ]
+                        }
+                    }
                 ]
             }
         ]

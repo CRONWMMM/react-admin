@@ -32,7 +32,16 @@ module.exports = webpackMerge(baseConfig, {
                             }
                         },
                         // 'px2rem-loader?remUnit=192',
-                        'less-loader?javascriptEnabled=true'
+                        'less-loader?javascriptEnabled=true',
+                        {
+                            loader: 'sass-resources-loader',
+                            options: {
+                                resources: [
+                                    path.resolve(__dirname, '../src/common/less/variables.less'),
+                                    path.resolve(__dirname, '../src/common/less/mixins.less')
+                                ]
+                            }
+                        }
                     ]
                 })
             }
