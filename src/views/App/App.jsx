@@ -83,7 +83,11 @@ class App extends React.Component {
                 <SubMenu
                     key="sub4"
                     title={<span><Icon type="apartment" /><span>组件</span></span>}>
-                  <Menu.Item key="sub3-item1">loading</Menu.Item>
+                  <Menu.Item key="sub3-item1">
+                    <Link to="/components/loading">
+                      <span>loading</span>
+                    </Link>
+                  </Menu.Item>
                   <Menu.Item key="sub3-item2">图片剪裁</Menu.Item>
                   <Menu.Item key="sub3-item3">表格</Menu.Item>
                   <Menu.Item key="sub3-item4">拖拽</Menu.Item>
