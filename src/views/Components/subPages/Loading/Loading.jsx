@@ -3,6 +3,7 @@ import React from 'react'
 import StretchDelayLoading from 'components/loadings/StretchDelayLoading/StretchDelayLoading'
 import RotatePlaneLoading from 'components/loadings/RotatePlaneLoading/RotatePlaneLoading'
 import BounceLoading from 'components/loadings/BounceLoading/BounceLoading'
+import CubeMoveLoading from 'components/loadings/CubeMoveLoading/CubeMoveLoading'
 // styles
 import './Loading.less'
 
@@ -20,6 +21,10 @@ class Loading extends React.Component {
             {
                 name: 'BounceLoading Component',
                 component: BounceLoading
+            },
+            {
+                name: 'CubeMoveLoading Component',
+                component: CubeMoveLoading
             }
         ]
     }

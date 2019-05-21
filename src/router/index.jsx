@@ -2,9 +2,9 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import asyncComponent from './AsyncComponent'
 
-const AsyncHome = asyncComponent(() => import(/* webpackChunkName: "Home" */'../views/Home/Home'))
-const AsyncUser = asyncComponent(() => import(/* webpackChunkName: "User" */'../views/User/User'))
-const AsyncComponentsLoading = asyncComponent(() => import(/* webpackChunkName: "User" */'../views/Components/subPages/Loading/Loading'))
+const AsyncHome = asyncComponent(() => import(/* webpackChunkName: "home_page" */'../views/Home/Home'))
+const AsyncUser = asyncComponent(() => import(/* webpackChunkName: "user_page" */'../views/User/User'))
+const AsyncComponentsLoading = asyncComponent(() => import(/* webpackChunkName: "components_loading_page" */'../views/Components/subPages/Loading/Loading'))
 
 const Routes = () => (
   <Switch>
