@@ -1,6 +1,29 @@
 .loading-page {
   .full-view();
-  display: flex;
-  justify-content: flex-start;
   overflow: hidden;
+  .loading-show {
+    .full-view();
+    display: flex;
+    justify-content: flex-start;
+    overflow: auto;
+    .item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      height: 140px;
+      border-radius: 4px;
+      text-align: center;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      &:hover {
+        cursor: pointer;
+        .bgc(#1890ff);
+        color: white;
+        .rect {
+          background-color: white!important;
+        }
+      }
+    }
+  }
 }

@@ -8,7 +8,12 @@ class Loading extends React.Component {
     render() {
         return (
           <div className="loading-page">
-            <StretchDelayLoading />
+            <ul className="loading-show">
+              <li className="item">
+                <StretchDelayLoading />
+                <span>StretchDelayLoading Component</span>
+              </li>
+            </ul>
           </div>
         )
     }
