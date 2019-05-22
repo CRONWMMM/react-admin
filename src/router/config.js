@@ -4,6 +4,7 @@ const AsyncHome = asyncComponent(() => import(/* webpackChunkName: "home_page" *
 const AsyncUser = asyncComponent(() => import(/* webpackChunkName: "user_page" */'views/User/User'))
 const AsyncUserInfo = asyncComponent(() => import(/* webpackChunkName: "user_info_page" */'views/User/subPages/UserInfo/UserInfo'))
 const AsyncComponentsLoading = asyncComponent(() => import(/* webpackChunkName: "components_loading_page" */'views/Components/subPages/Loading/Loading'))
+const AsyncNotFound = asyncComponent(() => import(/* webpackChunkName: "notfound_page" */'views/404/404'))
 
 
 export default [
@@ -51,5 +52,10 @@ export default [
             tag: 'loading 组件'
         },
         component: AsyncComponentsLoading
+    },
+    {
+        path: '/404',
+        name: '404',
+        component: AsyncNotFound
     }
 ]
