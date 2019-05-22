@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import { connect } from 'react-redux'
 // views
 import PropTypes from "prop-types";
@@ -30,4 +31,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Main)
+export default connect(mapStateToProps)(hot(Main))

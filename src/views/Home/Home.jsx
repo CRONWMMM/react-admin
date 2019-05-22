@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import './Home.less'
 
 class Home extends React.Component {
@@ -13,4 +14,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home
+export default hot(Home)

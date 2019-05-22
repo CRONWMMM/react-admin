@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -107,4 +108,4 @@ class PageTags extends React.Component {
     }
 }
 
-export default withRouter(PageTags)
+export default withRouter(hot(PageTags))

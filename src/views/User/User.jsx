@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import routes from 'router/config'
@@ -42,4 +43,4 @@ class User extends React.Component {
     }
 }
 
-export default User
+export default hot(User)

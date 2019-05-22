@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 // components
 import StretchDelayLoading from 'components/loadings/StretchDelayLoading/StretchDelayLoading'
 import RotatePlaneLoading from 'components/loadings/RotatePlaneLoading/RotatePlaneLoading'
@@ -62,4 +63,4 @@ class Loading extends React.Component {
     }
 }
 
-export default Loading
+export default hot(Loading)

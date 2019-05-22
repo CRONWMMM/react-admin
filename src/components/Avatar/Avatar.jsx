@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Link } from 'react-router-dom'
 import { Menu, Dropdown, Icon } from 'antd'
 import { connect } from 'react-redux'
@@ -64,4 +65,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Avatar)
+export default connect(mapStateToProps, mapDispatchToProps)(hot(Avatar))

@@ -20,6 +20,7 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias: {
             '@': path.resolve(__dirname, '../src'),
+            'react-dom': '@hot-loader/react-dom',
             views: path.resolve(__dirname, '../src/views'),
             libs: path.resolve(__dirname, '../src/libs'),
             common: path.resolve(__dirname, '../src/common'),

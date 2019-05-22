@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 // components
@@ -98,4 +99,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginFormWrap)
+export default connect(mapStateToProps, mapDispatchToProps)(hot(LoginFormWrap))

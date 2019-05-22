@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 
 class UserInfo extends React.Component {
     render() {
@@ -8,4 +9,4 @@ class UserInfo extends React.Component {
     }
 }
 
-export default UserInfo
+export default hot(UserInfo)
