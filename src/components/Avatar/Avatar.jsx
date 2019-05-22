@@ -28,7 +28,7 @@ class Avatar extends React.Component {
         const UserMenu = (
           <Menu>
             <MenuItem>
-              <Link to="/user">个人中心</Link>
+              <Link to="/user/info">个人中心</Link>
             </MenuItem>
             <MenuItem>
               <a href="#">项目地址</a>

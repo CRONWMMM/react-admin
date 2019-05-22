@@ -6,6 +6,10 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 // actions
 import { Row, Tag } from 'antd'
+// utils
+import { findDeeply } from 'libs/utils'
+// routes config
+import routes from 'router/config'
 // components
 import './PageTags.less'
 
@@ -18,13 +22,7 @@ class PageTags extends React.Component {
 
     state = {
         changeLock: false, // 线程锁
-        tags: [
-            {
-                name: '首页',
-                key: '/home',
-                path: '/'
-            }
-        ]
+        tags: []
     }
 
     componentWillMount() {
@@ -39,26 +37,13 @@ class PageTags extends React.Component {
     }
 
     updateTags = () => {
-        const { location: { pathname } } = this.props
         let { changeLock, tags } = this.state
-        let tagInfo = { path: pathname, key: pathname }
-
         if (changeLock) return
+        const { location: { pathname } } = this.props
+        const targetTag = findDeeply(routes, route => route.path === pathname)
 
-        switch (pathname) {
-            case '/':
-                tagInfo.name = '首页'
-                break
-            case '/user':
-                tagInfo.name = '用户主页'
-                break
-            case '/user/info':
-                tagInfo.name = '用户信息'
-                break
-        }
-        if (tagInfo.name && tags.every(({ path }) => path !== pathname)) {
-            tags = [...tags, tagInfo]
-        }
+        if (targetTag && tags.every(({ path }) => path !== pathname)) tags = [...tags, targetTag]
+
         this.setState({ tags, changeLock: false })
     }
 
@@ -69,7 +54,7 @@ class PageTags extends React.Component {
     handleTagClose = (page) => {
         const { history: $history, location: { pathname } } = this.props
         let { tags } = this.state
-        tags = tags.filter((tag) => tag.key !== page.key)
+        tags = tags.filter((tag) => tag.name !== page.name)
         let nextPathname = tags[tags.length - 1].path || '/'
         this.setState({ tags })
         if (page.path === pathname && nextPathname !== pathname) $history.push(nextPathname)
@@ -87,10 +72,10 @@ class PageTags extends React.Component {
             return (
                 <Tag
                     closable={closable}
-                    key={page.key}
+                    key={page.name || page.path}
                     color={page.path === pathname ? '#108ee9' : null}
                     onClose={() => this.handleTagClose(page)}>
-                    {page.path && page.path !== pathname ? <Link to={page.path}>{page.name}</Link> : page.name}
+                    {page.path && page.path !== pathname ? <Link to={page.path}>{page.meta.tag}</Link> : page.meta.tag}
                 </Tag>
             )
         })
@@ -98,14 +83,14 @@ class PageTags extends React.Component {
 
     render() {
         return (
-          <Row className="page-tags-component">
-            {this.generatorTags()}
-            {/*<Tag color="#1890ff"><Link to="/">首页</Link></Tag>*/}
-            {/*<Tag closable><Link to="/user">个人中心</Link></Tag>*/}
-            {/*<Tag closable>测试页面</Tag>*/}
-          </Row>
+            <Row className="page-tags-component">
+                {this.generatorTags()}
+                {/*<Tag color="#1890ff"><Link to="/">首页</Link></Tag>*/}
+                {/*<Tag closable><Link to="/user">个人中心</Link></Tag>*/}
+                {/*<Tag closable>测试页面</Tag>*/}
+            </Row>
         )
     }
 }
 
-export default withRouter(hot(PageTags))
+export default hot(withRouter(PageTags))

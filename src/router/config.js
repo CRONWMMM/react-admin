@@ -10,21 +10,30 @@ export default [
     {
         path: '/',
         exact: true,
-        component: AsyncHome
+        redirect: '/home'
     },
     {
         path: '/home',
         name: 'home',
+        meta: {
+            tag: '首页'
+        },
         component: AsyncHome
     },
     {
         path: '/user',
         name: 'user',
+        meta: {
+            tag: '用户'
+        },
         component: AsyncUser,
         children: [
             {
-                path: 'info',
+                path: '/user/info',
                 name: 'user-info',
+                meta: {
+                    tag: '用户信息'
+                },
                 component: AsyncUserInfo
             }
         ]
@@ -38,6 +47,9 @@ export default [
     {
         path: '/components/loading',
         name: 'component-loading',
+        meta: {
+            tag: 'loading 组件'
+        },
         component: AsyncComponentsLoading
     }
 ]

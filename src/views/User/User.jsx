@@ -13,7 +13,6 @@ class User extends React.Component {
     render() {
         const rootRoute = routes.find(route => route.name === 'user') || {}
         const userSubRoutes = rootRoute.children || []
-        const rootPath = rootRoute.path || '/'
 
         return (
           <div className="user-page">
@@ -24,14 +23,14 @@ class User extends React.Component {
                       if (!redirect) {
                           return (
                             <Route exact={exact ? true : false}
-                                   path={`${rootPath}/${path}`}
+                                   path={path}
                                    key={name || path}
                                    component={component} />
                           )
                       } else {
                           return (
                             <Route exact={exact ? true : false}
-                                   path={`${rootPath}/${path}`}
+                                   path={path}
                                    key={name || path}
                                    render={() => (<Redirect to={redirect} />)} />
                           )
