@@ -68,14 +68,17 @@ class PageTags extends React.Component {
         const { tags } = this.state
         const { length } = tags
         return tags.map((page) => {
+            const { path, name, meta } = page
             const closable = length > 1
+            // 没有 meta 就返回 null
+            if (!meta) return null
             return (
                 <Tag
                     closable={closable}
-                    key={page.name || page.path}
-                    color={page.path === pathname ? '#108ee9' : null}
+                    key={name || path}
+                    color={path === pathname ? '#108ee9' : null}
                     onClose={() => this.handleTagClose(page)}>
-                    {page.path && page.path !== pathname ? <Link to={page.path}>{page.meta.tag}</Link> : page.meta.tag}
+                    {path && path !== pathname ? <Link to={path}>{meta.tag}</Link> : meta.tag}
                 </Tag>
             )
         })
