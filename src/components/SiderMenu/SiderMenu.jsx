@@ -19,7 +19,14 @@ class AppMenu extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired
+        location: PropTypes.object.isRequired,
+        autoOpen: PropTypes.bool, // 是否开启自动展开菜单功能（如果当前激活的是子菜单，能够自动展开相应的父级菜单）
+        singleOpen: PropTypes.bool // 是否开启单一展开功能（手风琴效果）
+    }
+
+    static defaultProps = {
+        autoOpen: true,
+        singleOpen: true
     }
 
     state = {
@@ -28,26 +35,38 @@ class AppMenu extends React.Component {
     }
 
     componentWillMount() {
-        const { history: $history } = this.props
+        const { autoOpen, history: $history } = this.props
+        let firstLoad = true
 
-        this._resetOpenKeys(routes)
+        autoOpen && this._resetOpenKeys(routes)
         this._resetSelectedKeys(routes)
 
         $history.listen(() => {
             setTimeout(() => {
-                this._resetOpenKeys(routes)
+                if (firstLoad) return firstLoad = false
+                autoOpen && this._resetOpenKeys(routes)
                 this._resetSelectedKeys(routes)
             }, 0)
         })
     }
 
+    /**
+     * 菜单折叠状态改变时的回调
+     * @param openKeys {Array} 此时展开的菜单 keyList
+     */
     handleOpenChange = (openKeys) => {
+        const { singleOpen } = this.props
+
         this.setState({
-            openKeys: [ openKeys.pop() ]
+            openKeys: singleOpen ? [ openKeys.pop() ] : openKeys
         })
     }
 
-    handleSelect =  ({ key }) => {
+    /**
+     * 菜单选中状态改变时的回调
+     * @param key
+     */
+    handleSelect = ({ key }) => {
         this.setState({
             selectedKeys: [ key ]
         })

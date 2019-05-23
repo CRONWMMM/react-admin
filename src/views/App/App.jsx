@@ -57,7 +57,7 @@ class App extends React.Component {
                    collapsible
                    collapsed={collapsed}
                    onCollapse={this.onCollapse}>
-              <SiderMenu />
+              <SiderMenu singleOpen autoOpen={!collapsed} />
             </Sider>
             <Layout>
               <Header className="app-header">
