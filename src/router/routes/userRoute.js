@@ -8,7 +8,7 @@ export default [
         path: '/user',
         name: 'user',
         meta: {
-            tag: '用户'
+            tag: '用户中心'
         },
         component: AsyncUser,
         children: [
@@ -16,7 +16,7 @@ export default [
                 path: '/user/info',
                 name: 'user-info',
                 meta: {
-                    tag: '用户信息'
+                    tag: '个人信息'
                 },
                 component: AsyncUserInfo
             }
