@@ -53,11 +53,10 @@ class App extends React.Component {
 
         return (
           <Layout className="app-wrapper">
-            <Sider
-                trigger={null}
-                collapsible
-                collapsed={collapsed}
-                onCollapse={this.onCollapse}>
+            <Sider trigger={null}
+                   collapsible
+                   collapsed={collapsed}
+                   onCollapse={this.onCollapse}>
               <SiderMenu />
             </Sider>
             <Layout>
