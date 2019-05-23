@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 // utils
 // import { isObject } from 'libs/utils'
 // router config
-import routes from './config'
+import routes from './routes'
 
 const Routes = () => (
   <Switch>

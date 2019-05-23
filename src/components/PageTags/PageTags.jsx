@@ -9,7 +9,7 @@ import { Row, Tag } from 'antd'
 // utils
 import { findDeeply } from 'libs/utils'
 // routes config
-import routes from 'router/config'
+import routes from 'router/routes'
 // components
 import './PageTags.less'
 

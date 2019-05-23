@@ -61,7 +61,7 @@ class App extends React.Component {
                 collapsible
                 collapsed={collapsed}
                 onCollapse={this.onCollapse}>
-              <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+              <Menu theme="dark" defaultSelectedKeys={['sub1']} mode="inline">
                 <i className="iconfont iconreact app-logo"></i>
                 <Menu.Item key="sub1">
                   <Link to="/">

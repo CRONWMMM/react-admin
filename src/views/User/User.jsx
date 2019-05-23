@@ -2,7 +2,7 @@ import React from 'react'
 import { hot } from 'react-hot-loader/root'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import routes from 'router/config'
+import routes from 'router/routes'
 import './User.less'
 
 class User extends React.Component {
