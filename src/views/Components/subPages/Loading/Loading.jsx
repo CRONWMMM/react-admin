@@ -7,6 +7,8 @@ import BounceLoading from 'components/loadings/BounceLoading/BounceLoading'
 import CubeMoveLoading from 'components/loadings/CubeMoveLoading/CubeMoveLoading'
 import BounceRotateLoading from 'components/loadings/BounceRotateLoading/BounceRotateLoading'
 import BounceDelayLoading from 'components/loadings/BounceDelayLoading/BounceDelayLoading'
+import ScaleOutLoading from 'components/loadings/ScaleOutLoading/ScaleOutLoading'
+import CirclesBounceLoading from 'components/loadings/CirclesBounceLoading/CirclesBounceLoading'
 // styles
 import './Loading.less'
 
@@ -36,6 +38,14 @@ class Loading extends React.Component {
             {
                 name: 'BounceDelayLoading Component',
                 component: BounceDelayLoading
+            },
+            {
+                name: 'ScaleOutLoading Component',
+                component: ScaleOutLoading
+            },
+            {
+                name: 'CirclesBounceLoading Component',
+                component: CirclesBounceLoading
             }
         ]
     }

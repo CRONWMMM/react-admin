@@ -1,0 +1,25 @@
+.scale-out-loading {
+  display: flex;
+  justify-content: space-around;
+  width: 40px;
+  height: 40px;
+  background-color: #1890ff;
+  border-radius: 100%;
+  animation: scaleout 1.0s infinite ease-in-out;
+}
+@-webkit-keyframes scaleout {
+  0% { transform: scale(0.0) }
+  100% {
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}
+@keyframes scaleout {
+  0% {
+    transform: scale(0.0);
+  }
+  100% {
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}
