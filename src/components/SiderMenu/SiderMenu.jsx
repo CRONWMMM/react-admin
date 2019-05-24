@@ -20,34 +20,39 @@ class AppMenu extends React.Component {
         history: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
-        autoOpen: PropTypes.bool, // 是否开启自动展开菜单功能（如果当前激活的是子菜单，能够自动展开相应的父级菜单）
+        collapsed: PropTypes.bool, // 菜单是否全部折叠（在简约模式下有用）
         singleOpen: PropTypes.bool // 是否开启单一展开功能（手风琴效果）
     }
 
     static defaultProps = {
-        autoOpen: true,
+        collapsed: false,
         singleOpen: true
     }
 
     state = {
+        locked: false, // 线程锁
         openKeys: [], // 当前展开的 SubMenu 菜单项 key 数组
         selectedKeys: [ 'home' ] // 当前选中的菜单项 key 数组
     }
 
     componentWillMount() {
-        const { autoOpen, history: $history } = this.props
-        let firstLoad = true
-
-        autoOpen && this._resetOpenKeys(routes)
-        this._resetSelectedKeys(routes)
+        const { history: $history } = this.props
+        this._resetMenuState(routes)
 
         $history.listen(() => {
-            setTimeout(() => {
-                if (firstLoad) return firstLoad = false
-                autoOpen && this._resetOpenKeys(routes)
-                this._resetSelectedKeys(routes)
-            }, 0)
+            setTimeout(this._resetMenuState, 0, routes)
         })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { collapsed } = nextProps
+        if (collapsed) {
+            this.setState({
+                openKeys: []
+            })
+        } else {
+            setTimeout(this._resetMenuState, 0, routes)
+        }
     }
 
     /**
@@ -73,33 +78,32 @@ class AppMenu extends React.Component {
     }
 
     /**
-     * 重置打开菜单
-     * @param routes { Array } 外部传入的路由配置数组
+     * 处理 selectedKeys / openKeys 状态改变的回调
+     * @param routes {Array} 外部传入的路由配置数组
      */
-    _resetOpenKeys(routes) {
-        const { location: { pathname } } = this.props
-        const targetRoute = findDeeply(routes, ({ children = [] }) => children.some(({ path }) => path === pathname))
-        if (targetRoute) {
-            this.setState({
-                openKeys: [ targetRoute.name ]
-            })
-        } else {
-            this.setState({ openKeys: [] })
-        }
-    }
+    _resetMenuState = (routes) => {
+        const { locked, openKeys, selectedKeys } = this.state
 
-    /**
-     * 重置高亮菜单
-     * @param routes { Array } 外部传入的路由配置数组
-     */
-    _resetSelectedKeys(routes) {
-        const { location: { pathname } } = this.props
-        const targetRoute = findDeeply(routes, ({ path }) => path === pathname)
-        if (targetRoute) {
+        if (locked) {
+            return
+        } else {
             this.setState({
-                selectedKeys: [ targetRoute.name ]
+                locked: true
             })
         }
+
+        const { singleOpen, location: { pathname } } = this.props
+        // 查询当前应该高亮的路由 name
+        const { name }  = findDeeply(routes, ({ path }) => path === pathname) || {}
+        // 查询当前应该展开的父级路由 name
+        const { name: parentName } = findDeeply(routes, ({ children = [] }) => children.some(({ path }) => path === pathname)) || {}
+
+        let newState = {
+            locked: false,
+            openKeys: parentName && singleOpen ? [ parentName ] : parentName && !singleOpen ? openKeys : [],
+            selectedKeys: name ? [ name ] : selectedKeys,
+        }
+        this.setState(newState)
     }
 
     render() {
@@ -117,7 +121,7 @@ class AppMenu extends React.Component {
                 onSelect={this.handleSelect}>
             <i className="iconfont iconreact app-logo"></i>
             <Menu.Item key="home">
-              <Link to="/">
+              <Link to="/home">
                 <Icon type="home" />
                 <span>首页</span>
               </Link>
