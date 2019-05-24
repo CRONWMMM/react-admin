@@ -83,6 +83,7 @@ class AppMenu extends React.Component {
      */
     _resetMenuState = (routes) => {
         const { locked, openKeys, selectedKeys } = this.state
+        const { collapsed } = this.props
 
         if (locked) {
             return
@@ -100,7 +101,7 @@ class AppMenu extends React.Component {
 
         let newState = {
             locked: false,
-            openKeys: parentName && singleOpen ? [ parentName ] : parentName && !singleOpen ? openKeys : [],
+            openKeys: collapsed ? [] : parentName && singleOpen ? [ parentName ] : parentName && !singleOpen ? openKeys : [],
             selectedKeys: name ? [ name ] : selectedKeys,
         }
         this.setState(newState)
