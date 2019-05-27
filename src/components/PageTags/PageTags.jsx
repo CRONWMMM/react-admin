@@ -50,12 +50,18 @@ class PageTags extends React.Component {
     /**
      * 处理 Tag 组件关闭回调
      * @params page {Object} 需要关闭的标签对象信息
+     * @params index {Number} 当前标签对象在 tags 中的索引
      */
-    handleTagClose = (page) => {
+    handleTagClose = (page, index) => {
         const { history: $history, location: { pathname } } = this.props
         let { tags } = this.state
         tags = tags.filter((tag) => tag.name !== page.name)
-        let nextPathname = tags[tags.length - 1].path || '/'
+        // 路径的获取顺序，先决条件分别为：
+        // 1. 先找当前索引的路径
+        // 2. 再找前一个索引的路径
+        // 3. 其次找第一个索引的路径
+        // 4. 都没有，则跳回首页
+        let nextPathname = tags[index] ? tags[index].path : tags[index - 1] ? tags[index - 1].path : tags[0] ? tags[0].path : '/'
         this.setState({ tags })
         if (page.path === pathname && nextPathname !== pathname) $history.push(nextPathname)
     }
@@ -67,8 +73,8 @@ class PageTags extends React.Component {
         const { location: { pathname } } = this.props
         const { tags } = this.state
         const { length } = tags
-        return tags.map((page) => {
-            const { path, name, meta } = page
+        return tags.map((tag, index) => {
+            const { path, name, meta } = tag
             const closable = length > 1
             // 没有 meta 就返回 null
             if (!meta) return null
@@ -77,7 +83,7 @@ class PageTags extends React.Component {
                     closable={closable}
                     key={name || path}
                     color={path === pathname ? '#108ee9' : null}
-                    onClose={() => this.handleTagClose(page)}>
+                    onClose={() => this.handleTagClose(tag, index)}>
                     {path && path !== pathname ? <Link to={path}>{meta.tag}</Link> : meta.tag}
                 </Tag>
             )
