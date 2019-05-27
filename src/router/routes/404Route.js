@@ -5,7 +5,6 @@ const AsyncNotFound = asyncComponent(() => import(/* webpackChunkName: "notfound
 export default [
     {
         path: '/404',
-        name: '404',
         component: AsyncNotFound
     }
 ]

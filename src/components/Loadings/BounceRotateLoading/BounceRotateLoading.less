@@ -22,14 +22,14 @@
     bottom: 0px;
     animation-delay: -1.0s;
   }
+  @keyframes rotate { 100% { transform: rotate(360deg); }}
+  @keyframes bounce {
+    0%, 100% {
+      transform: scale(0.0);
+    }
+    50% {
+      transform: scale(1.0);
+    }
+  }
 }
 
-@keyframes rotate { 100% { transform: rotate(360deg); }}
-@keyframes bounce {
-  0%, 100% {
-    transform: scale(0.0);
-  }
-  50% {
-    transform: scale(1.0);
-  }
-}

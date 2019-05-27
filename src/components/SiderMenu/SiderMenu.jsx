@@ -8,6 +8,7 @@ import routes from 'router/routes'
 import { findDeeply } from 'libs/utils'
 // components
 import { Menu, Icon } from 'antd'
+import Logo from 'components/Logo/Logo'
 // style
 import './SiderMenu.less'
 
@@ -32,7 +33,7 @@ class AppMenu extends React.Component {
     state = {
         locked: false, // 线程锁
         openKeys: [], // 当前展开的 SubMenu 菜单项 key 数组
-        selectedKeys: [ 'home' ] // 当前选中的菜单项 key 数组
+        selectedKeys: [] // 当前选中的菜单项 key 数组
     }
 
     componentWillMount() {
@@ -161,7 +162,7 @@ class AppMenu extends React.Component {
                 defaultSelectedKeys={selectedKeys}
                 onOpenChange={this.handleOpenChange}
                 onSelect={this.handleSelect}>
-            <i className="iconfont iconreact app-logo"></i>
+            <Logo />
             {this._generatorMenuItem(routes)}
           </Menu>
         )
