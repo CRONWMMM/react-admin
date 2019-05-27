@@ -133,6 +133,11 @@ class AppMenu extends React.Component {
                   <span>loading</span>
                 </Link>
               </Menu.Item>
+              <Menu.Item key="components-picviewer">
+                <Link to="/components/picviewer">
+                  <span>图片查看器</span>
+                </Link>
+              </Menu.Item>
             </SubMenu>
             <SubMenu key="user" title={<span><Icon type="user" /><span>用户中心</span></span>}>
               <Menu.Item key="user-info">

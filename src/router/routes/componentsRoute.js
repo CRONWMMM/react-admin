@@ -1,6 +1,7 @@
 import asyncComponent from '../AsyncComponent'
 
 const AsyncComponentsLoading = asyncComponent(() => import(/* webpackChunkName: "components_loading_page" */'views/Loading/Loading'))
+const AsyncPicViewersLoading = asyncComponent(() => import(/* webpackChunkName: "components_picviewer_page" */'views/PicViewer/PicViewer'))
 
 export default [
     {
@@ -14,6 +15,14 @@ export default [
                     tag: 'loading 组件'
                 },
                 component: AsyncComponentsLoading
+            },
+            {
+                path: '/components/picviewer',
+                name: 'components-picviewer',
+                meta: {
+                    tag: '图片查看器组件'
+                },
+                component: AsyncPicViewersLoading
             }
         ]
     }
