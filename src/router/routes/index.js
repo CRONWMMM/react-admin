@@ -5,7 +5,7 @@ import notFoundRoute from './404Route'
 
 export default [
     ...homeRoute,
-    ...userRoute,
     ...componentsRoute,
+    ...userRoute,
     ...notFoundRoute
 ]

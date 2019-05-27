@@ -7,6 +7,10 @@ export default [
     {
         path: '/components',
         name: 'components',
+        meta: {
+            tag: '组件',
+            icon: 'apartment'
+        },
         children: [
             {
                 path: '/components/loading',

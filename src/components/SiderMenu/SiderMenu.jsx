@@ -107,6 +107,47 @@ class AppMenu extends React.Component {
         this.setState(newState)
     }
 
+    /**
+     * 生成菜单列表
+     * @param routes {Array} 路由配置对象
+     * @returns {Array}
+     * @private
+     */
+    _generatorMenuItem = (routes) => {
+        let result = []
+
+        for (let i = 0, len = routes.length; i < len; i++) {
+            let { name, path, meta = {}, children } = routes[i]
+            let { tag, icon } = meta
+
+            if (!name) { // 如果没有 name 就不需要生路由组件了
+                // eslint-disable-line
+            } else if (children) { // 如果还有子路由，使用 SubMenu 组件包裹最外层，然后递归 children
+                result.push(
+                  <SubMenu key={name}
+                           title={(
+                             <span>
+                               {icon ? <Icon type={icon} /> : null}
+                               <span>{tag}</span>
+                             </span>
+                            )}>
+                    {children ? this._generatorMenuItem(children) : null}
+                  </SubMenu>
+                )
+            } else {
+                result.push(
+                  <Menu.Item key={name}>
+                    <Link to={path}>
+                      {icon ? <Icon type={icon} /> : null}
+                      <span>{tag}</span>
+                    </Link>
+                  </Menu.Item>
+                )
+            }
+        }
+        return result
+    }
+
     render() {
         let { openKeys, selectedKeys } = this.state
 
@@ -121,47 +162,7 @@ class AppMenu extends React.Component {
                 onOpenChange={this.handleOpenChange}
                 onSelect={this.handleSelect}>
             <i className="iconfont iconreact app-logo"></i>
-            <Menu.Item key="home">
-              <Link to="/home">
-                <Icon type="home" />
-                <span>首页</span>
-              </Link>
-            </Menu.Item>
-            <SubMenu key="components" title={<span><Icon type="apartment" /><span>组件</span></span>}>
-              <Menu.Item key="components-loading">
-                <Link to="/components/loading">
-                  <span>loading</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="components-picviewer">
-                <Link to="/components/picviewer">
-                  <span>图片查看器</span>
-                </Link>
-              </Menu.Item>
-            </SubMenu>
-            <SubMenu key="user" title={<span><Icon type="user" /><span>用户中心</span></span>}>
-              <Menu.Item key="user-info">
-                <Link to="/user/info">
-                  <span>个人信息</span>
-                </Link>
-              </Menu.Item>
-            </SubMenu>
-            {/*<SubMenu key="sub2" title={<span><Icon type="pie-chart" /><span>数据可视化</span></span>}>*/}
-            {/*<Menu.Item key="sub1-item1">图表</Menu.Item>*/}
-            {/*<Menu.Item key="sub1-item2">热力图</Menu.Item>*/}
-            {/*</SubMenu>*/}
-            {/*<SubMenu key="sub3" title={<span><Icon type="file-done" /><span>案例</span></span>}>*/}
-            {/*<Menu.Item key="sub2-item1">灭霸的响指</Menu.Item>*/}
-            {/*<Menu.Item key="sub2-item2">音乐播放器</Menu.Item>*/}
-            {/*</SubMenu>*/}
-            {/*<Menu.Item key="sub5">*/}
-            {/*<Icon type="dot-chart" />*/}
-            {/*<span>数据埋点</span>*/}
-            {/*</Menu.Item>*/}
-            {/*<Menu.Item key="sub7">*/}
-            {/*<Icon type="setting" />*/}
-            {/*<span>系统设置</span>*/}
-            {/*</Menu.Item>*/}
+            {this._generatorMenuItem(routes)}
           </Menu>
         )
     }

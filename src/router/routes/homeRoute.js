@@ -12,7 +12,8 @@ export default [
         path: '/home',
         name: 'home',
         meta: {
-            tag: '首页'
+            tag: '首页',
+            icon: 'home'
         },
         component: AsyncHome
     }

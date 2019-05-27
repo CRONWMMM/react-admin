@@ -8,7 +8,8 @@ export default [
         path: '/user',
         name: 'user',
         meta: {
-            tag: '用户中心'
+            tag: '用户中心',
+            icon: 'user'
         },
         component: AsyncUser,
         children: [
