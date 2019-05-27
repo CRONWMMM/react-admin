@@ -50,7 +50,8 @@ module.exports = webpackMerge(baseConfig, {
 
     plugins: [
         new ExtractTextWebpackPlugin({
-            filename: '[name].min.[hash:5].css'
+            filename: '[name].min.[hash:5].css',
+            allChunks: true
         }),
         new OptimizeCss(),
         new CopyPlugin([
