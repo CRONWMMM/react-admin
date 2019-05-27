@@ -42,7 +42,7 @@ class PageTags extends React.Component {
         const { location: { pathname } } = this.props
         const targetTag = findDeeply(routes, route => route.path === pathname)
 
-        if (targetTag && tags.every(({ path }) => path !== pathname)) tags = [...tags, targetTag]
+        if (targetTag && tags.every(({ path }) => path !== pathname) && targetTag.name) tags = [...tags, targetTag]
 
         this.setState({ tags, changeLock: false })
     }

@@ -83,7 +83,7 @@ class AppMenu extends React.Component {
      * @param routes {Array} 外部传入的路由配置数组
      */
     _resetMenuState = (routes) => {
-        const { locked, openKeys, selectedKeys } = this.state
+        const { locked, openKeys } = this.state
         const { collapsed } = this.props
 
         if (locked) {
@@ -103,7 +103,7 @@ class AppMenu extends React.Component {
         let newState = {
             locked: false,
             openKeys: collapsed ? [] : parentName && singleOpen ? [ parentName ] : parentName && !singleOpen ? openKeys : [],
-            selectedKeys: name ? [ name ] : selectedKeys,
+            selectedKeys: name ? [ name ] : [],
         }
         this.setState(newState)
     }
