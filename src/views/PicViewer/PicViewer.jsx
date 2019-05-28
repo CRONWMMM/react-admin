@@ -21,8 +21,14 @@ class PicViewer extends React.Component {
     }
 
     componentDidMount() {
+        const viewportDOM = document.getElementById('viewport')
+        const imgDOM = viewportDOM.getElementsByTagName('img')[0]
         // 延迟 20ms 执行
         setTimeout(this.initPictureInfo, 20)
+        // 这边需要将滚轮事件使用原生绑定来处理
+        // 从而解决新版本 chrome 浏览器带来的 passive event listener
+        // 在对图片进行滚动缩放时无法使用 e.preventDefault 来禁用浏览器滚动问题
+        imgDOM.addEventListener('wheel', this.handleMouseWheel, { passive: false })
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -142,7 +148,8 @@ class PicViewer extends React.Component {
         const { imageWidth: width, imageHeight: height, startLeft, startTop } = this.state
         const imgDOM = document.getElementById('viewport').getElementsByTagName('img')[0]
         const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
-        const event = e.nativeEvent
+        const event = e.nativeEvent || e
+        event.preventDefault()
         // 这块的 scale 每次都需要用 1 去加，作为图片的实时缩放比率
         let scale = 1 + event.wheelDelta / 1200
         let currentImageWidth = imageWidth * scale
@@ -238,12 +245,11 @@ class PicViewer extends React.Component {
                  className="viewport"
                  onMouseOver={this.handleMouseOver}>
               <img src={picture1}
-                   draggable="false"
                    alt="图片"
+                   draggable="false"
                    onMouseDown={this.handleMouseDown}
                    onMouseMove={this.handleMouseMove}
-                   onMouseUp={this.handleMouseUp}
-                   onWheel={this.handleMouseWheel} />
+                   onMouseUp={this.handleMouseUp} />
             </div>
           </div>
         )
