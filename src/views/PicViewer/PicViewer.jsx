@@ -140,37 +140,44 @@ class PicViewer extends React.Component {
         this.handleMouseUp()
     }
 
+    /* eslint-disable */
     /**
      * 处理滚轮缩放
      * @param e {Event Object} 事件对象
      */
     handleMouseWheel = (e) => {
-        const { imageWidth: width, imageHeight: height, startLeft, startTop } = this.state
-        const imgDOM = document.getElementById('viewport').getElementsByTagName('img')[0]
+        const { imageWidth: width, currentLeft, currentTop, scale: lastScale } = this.state
+        const viewportDOM = document.getElementById('viewport')
+        const imgDOM = viewportDOM.getElementsByTagName('img')[0]
         const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
         const event = e.nativeEvent || e
         event.preventDefault()
         // 这块的 scale 每次都需要用 1 去加，作为图片的实时缩放比率
         let scale = 1 + event.wheelDelta / 1200
+
+        // 最小缩放至 0.8 就不能再缩小了
+        if (lastScale < 0.8 && scale < 1) return
+
         let currentImageWidth = imageWidth * scale
         let currentImageHeight = imageHeight * scale
         // 真实的图片缩放比率需要用尺寸相除
-        let stateScale = currentImageWidth / width
+        let nextScale = currentImageWidth / width
+
+        let { left, top } = this._getOffsetInElement(e, imgDOM)
+        let rateX = left / imageWidth
+        let rateY = top / imageHeight
+        let newLeft = rateX * currentImageWidth
+        let newTop = rateY * currentImageHeight
 
         // 改变图片尺寸
         this.changeSize(currentImageWidth, currentImageHeight)
 
-        const viewportDOM = document.getElementById('viewport')
-        let { left, right, top, bottom } = this._getOffsetInElement(e, viewportDOM)
-        let rateX = left / right
-        let rateY = top / bottom
-        let diffX = (width - currentImageWidth) / 2
-        let diffY = (height - currentImageHeight) / 2
-
         this.setState({
-            scale: stateScale,
-            currentLeft: startLeft + rateX * diffX,
-            currentTop: startTop + rateY * diffY
+            scale: nextScale,
+            startLeft: currentLeft + (left - newLeft),
+            startTop: currentTop + (top - newTop),
+            currentLeft: currentLeft + (left - newLeft),
+            currentTop: currentTop + (top - newTop)
         })
     }
 
