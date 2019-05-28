@@ -9,6 +9,8 @@ class PicViewer extends React.Component {
 
     state = {
         focus: false,
+        imageWidth: 0,
+        imageHeight: 0,
         startX: 0,
         startY: 0,
         startLeft: 0,
@@ -18,10 +20,43 @@ class PicViewer extends React.Component {
         scale: 1
     }
 
+    componentDidMount() {
+        // 延迟 20ms 执行
+        setTimeout(this.initPictureInfo, 20)
+    }
+
     componentWillUpdate(nextProps, nextState) {
         const {currentLeft, currentTop} = nextState
         this.changePosition(currentLeft, currentTop)
     }
+
+    /**
+     * 图片初始化，包括：
+     * 1. 初始图片位置居中
+     * 2. 记录初始图片尺寸
+     */
+    initPictureInfo = () => {
+        const viewportDOM = document.getElementById('viewport')
+        const imgDOM = viewportDOM.getElementsByTagName('img')[0]
+        const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
+        const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
+        const [ top, left ] = [ (viewPortHeight - imageHeight) / 2, (viewPortWidth - imageWidth) / 2 ]
+
+        this.setState({
+            imageWidth,
+            imageHeight,
+            currentLeft: left,
+            currentTop: top,
+            startLeft: left,
+            startTop: top
+        })
+
+        this.changePosition(left, top)
+    }
+
+    changeToContain() {} // eslint-disable-line
+
+    changeToCover() {} // eslint-disable-line
 
     /**
      * 改变图片位置
@@ -34,6 +69,22 @@ class PicViewer extends React.Component {
         imgDOM.style.left = `${currentLeft}px`
     }
 
+    /**
+     * 调整尺寸
+     * @param width
+     * @param height
+     */
+    changeSize(width, height) {
+        const imgDOM = document.getElementById('viewport').getElementsByTagName('img')[0]
+        imgDOM.style.maxWidth = imgDOM.style.maxHeight = 'none'
+        imgDOM.style.width = `${width}px`
+        imgDOM.style.height = `${height}px`
+    }
+
+    /**
+     * 处理鼠标按下
+     * @param e
+     */
     handleMouseDown = (e) => {
         const viewportDOM = document.getElementById('viewport')
         let { top: startY, left: startX } = this._getOffsetInElement(e, viewportDOM)
@@ -44,10 +95,14 @@ class PicViewer extends React.Component {
         })
     }
 
+    /**
+     * 处理鼠标移动
+     * @param e
+     */
     handleMouseMove = (e) => {
-        const viewportDOM = document.getElementById('viewport')
         const { focus, startX, startY, startTop, startLeft } = this.state
         if (!focus) return
+        const viewportDOM = document.getElementById('viewport')
 
         let { left: currentX, top: currentY } = this._getOffsetInElement(e, viewportDOM)
         let [ diffX, diffY ] = [ currentX - startX, currentY - startY ]
@@ -58,6 +113,9 @@ class PicViewer extends React.Component {
         })
     }
 
+    /**
+     * 处理鼠标放开
+     */
     handleMouseUp = () => {
         const { currentLeft, currentTop } = this.state
         this.setState({
@@ -69,11 +127,45 @@ class PicViewer extends React.Component {
         })
     }
 
+    /**
+     * 处理鼠标移入移出
+     */
     handleMouseOver = () => {
         this.handleMouseUp()
     }
 
-    handleMouseWheel = () => {}
+    /**
+     * 处理滚轮缩放
+     * @param e {Event Object} 事件对象
+     */
+    handleMouseWheel = (e) => {
+        const { imageWidth: width, imageHeight: height, startLeft, startTop } = this.state
+        const imgDOM = document.getElementById('viewport').getElementsByTagName('img')[0]
+        const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
+        const event = e.nativeEvent
+        // 这块的 scale 每次都需要用 1 去加，作为图片的实时缩放比率
+        let scale = 1 + event.wheelDelta / 1200
+        let currentImageWidth = imageWidth * scale
+        let currentImageHeight = imageHeight * scale
+        // 真实的图片缩放比率需要用尺寸相除
+        let stateScale = currentImageWidth / width
+
+        // 改变图片尺寸
+        this.changeSize(currentImageWidth, currentImageHeight)
+
+        const viewportDOM = document.getElementById('viewport')
+        let { left, right, top, bottom } = this._getOffsetInElement(e, viewportDOM)
+        let rateX = left / right
+        let rateY = top / bottom
+        let diffX = (width - currentImageWidth) / 2
+        let diffY = (height - currentImageHeight) / 2
+
+        this.setState({
+            scale: stateScale,
+            currentLeft: startLeft + rateX * diffX,
+            currentTop: startTop + rateY * diffY
+        })
+    }
 
     /**
      * 获取鼠标当前相对于某个元素的位置
