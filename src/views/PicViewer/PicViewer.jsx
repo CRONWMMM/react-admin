@@ -156,7 +156,8 @@ class PicViewer extends React.Component {
         let scale = 1 + event.wheelDelta / 1200
 
         // 最小缩放至 0.8 就不能再缩小了
-        if (lastScale < 0.8 && scale < 1) return
+        // 最大放大至 8 倍就不能再放大了
+        if ((lastScale < 0.8 && scale < 1) || (lastScale > 8 && scale > 1)) return
 
         let currentImageWidth = imageWidth * scale
         let currentImageHeight = imageHeight * scale
