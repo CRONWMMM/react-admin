@@ -8,23 +8,24 @@ import './PicViewer.less'
 class PicViewer extends React.Component {
 
     state = {
-        focus: false,
-        imageWidth: 0,
-        imageHeight: 0,
-        startX: 0,
-        startY: 0,
-        startLeft: 0,
-        startTop: 0,
-        currentLeft: 0,
-        currentTop: 0,
-        scale: 1
+        focus: false, // 鼠标是否按下，处于可拖动状态
+        imageWidth: 0, // 图片宽度
+        imageHeight: 0, // 图片高度
+        startX: 0, // 鼠标按下时，距离 viewport 的初始 X 位置
+        startY: 0, // 鼠标按下时，距离 viewport 的初始 Y 位置
+        startLeft: 0, // 图片距离 viewport 的初始 Left
+        startTop: 0, // 图片距离 viewport 的初始 Top
+        currentLeft: 0, // 图片当前距离 viewport 的 left
+        currentTop: 0, // 图片当前距离 viewport 的 top
+        scale: 1 // 图片缩放比率 0.8 - 8
     }
 
     componentDidMount() {
         const viewportDOM = document.getElementById('viewport')
         const imgDOM = viewportDOM.getElementsByTagName('img')[0]
         // 延迟 20ms 执行
-        setTimeout(this.initPictureInfo, 20)
+        // setTimeout(this.initPictureInfo, 200)
+        this.initPictureInfo()
         // 这边需要将滚轮事件使用原生绑定来处理
         // 从而解决新版本 chrome 浏览器带来的 passive event listener
         // 在对图片进行滚动缩放时无法使用 e.preventDefault 来禁用浏览器滚动问题
@@ -46,6 +47,9 @@ class PicViewer extends React.Component {
         const imgDOM = viewportDOM.getElementsByTagName('img')[0]
         const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
         const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
+        if (!imageWidth || !imageHeight) {
+            return setTimeout(this.initPictureInfo, 0)
+        }
         const [ top, left ] = [ (viewPortHeight - imageHeight) / 2, (viewPortWidth - imageWidth) / 2 ]
 
         this.setState({
