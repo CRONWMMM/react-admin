@@ -97,6 +97,9 @@ class PicViewer extends React.Component {
      */
     handleMouseDown = (e) => {
         const viewportDOM = document.getElementById('viewport')
+        const currentDOM = e.target || e.toElement
+        if (currentDOM !== viewportDOM.getElementsByTagName('img')[0]) return
+
         let { top: startY, left: startX } = this._getOffsetInElement(e, viewportDOM)
         this.setState({
             focus: true,
@@ -138,9 +141,9 @@ class PicViewer extends React.Component {
     }
 
     /**
-     * 处理鼠标移入移出
+     * 处理鼠标移出
      */
-    handleMouseOver = () => {
+    handleMouseLeave = () => {
         this.handleMouseUp()
     }
 
@@ -255,13 +258,13 @@ class PicViewer extends React.Component {
           <div className="picture-viewer-page">
             <div id="viewport"
                  className="viewport"
-                 onMouseOver={this.handleMouseOver}>
+                 onMouseLeave={this.handleMouseLeave}
+                 onMouseDown={this.handleMouseDown}
+                 onMouseMove={this.handleMouseMove}
+                 onMouseUp={this.handleMouseUp}>
               <img src={picture1}
                    alt="图片"
-                   draggable="false"
-                   onMouseDown={this.handleMouseDown}
-                   onMouseMove={this.handleMouseMove}
-                   onMouseUp={this.handleMouseUp} />
+                   draggable="false" />
             </div>
           </div>
         )
