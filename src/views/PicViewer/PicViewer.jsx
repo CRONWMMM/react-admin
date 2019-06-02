@@ -12,7 +12,7 @@ class PicViewer extends React.Component {
     render() {
         return (
           <div className="picture-viewer-page">
-            <PictureViewer width="800" height="600">
+            <PictureViewer width="600" height="400">
               <img src={picture1}
                    alt="图片"
                    draggable="false" />

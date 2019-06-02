@@ -186,7 +186,7 @@ class PictureViewer extends React.Component {
      */
     handleMouseWheel = (e) => {
         const { minimum, maximum } = this.props
-        const { imageWidth: width, currentLeft, currentTop, scale: lastScale } = this.state
+        const { imageWidth: originWidth, imageHeight: originHeight, currentLeft, currentTop, scale: lastScale } = this.state
         const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
         const event = e.nativeEvent || e
         event.preventDefault()
@@ -197,10 +197,15 @@ class PictureViewer extends React.Component {
         // 最大放大至 maximum 倍就不能再放大了
         if ((lastScale <= minimum && scale < 1) || (lastScale >= maximum && scale > 1)) return
 
-        let currentImageWidth = imageWidth * scale
-        let currentImageHeight = imageHeight * scale
         // 真实的图片缩放比率需要用尺寸相除
-        let nextScale = currentImageWidth / width
+        let nextScale = imageWidth * scale / originWidth
+
+        // 进行缩放比率检测
+        // 如果小于最小值，使用原始图片尺寸和最小缩放值
+        // 如果大于最大值，使用最大图片尺寸和最大缩放值
+        nextScale = nextScale <= minimum ? minimum : nextScale >= maximum ? maximum : nextScale
+        let currentImageWidth = nextScale * originWidth
+        let currentImageHeight = nextScale * originHeight
 
         let { left, top } = this._getOffsetInElement(e, imgDOM)
         let rateX = left / imageWidth
