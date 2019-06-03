@@ -15,14 +15,16 @@ class PictureViewer extends React.Component {
         height: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // viewport 视口的高度
         minimum: PropTypes.number, // 缩放的最小尺寸【零点几】
         maximum: PropTypes.number, // 缩放的最大尺寸
-        children: PropTypes.object.isRequired // slot 插槽
+        children: PropTypes.object.isRequired, // slot 插槽
+        center: PropTypes.bool // 图片位置是否初始居中
     }
 
     static defaultProps = {
         width: '600px',
         height: '400px',
         minimum: 0.8,
-        maximum: 8
+        maximum: 8,
+        center: true
     }
 
     state = {
@@ -76,12 +78,28 @@ class PictureViewer extends React.Component {
      * 2. 记录初始图片尺寸
      */
     initPictureInfo = () => {
-        const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
-        const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
-        if (!imageWidth || !imageHeight) {
+        if (!imgDOM.clientWidth || !imgDOM.clientHeight) {
             return setTimeout(this.initPictureInfo, 0)
         }
-        const [ top, left ] = [ (viewPortHeight - imageHeight) / 2, (viewPortWidth - imageWidth) / 2 ]
+
+        const { center } = this.props
+        this.changeToContain(center)
+    }
+
+    /**
+     * 设置图片尺寸为 contain
+     * @param center {Boolean} 是否需要设置图片默认位置居中
+     */
+    changeToContain = (center = true) => {
+        imgDOM.style.width = imgDOM.style.height = 'auto'
+        imgDOM.style.maxWidth = imgDOM.style.maxHeight = '100%'
+
+        const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
+        const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
+
+        // 设置图片默认位置居中
+        const [ top, left ] = [ center ? (viewPortHeight - imageHeight) / 2 : 0, center ? (viewPortWidth - imageWidth) / 2 : 0 ]
+        center && this.changePosition(left, top)
 
         this.setState({
             imageWidth,
@@ -91,14 +109,7 @@ class PictureViewer extends React.Component {
             startLeft: left,
             startTop: top
         })
-
-        this.changePosition(left, top)
     }
-
-    /**
-     * 设置图片尺寸为 contain
-     */
-    changeToContain() {} // eslint-disable-line
 
     /**
      * 设置图片尺寸为 cover
