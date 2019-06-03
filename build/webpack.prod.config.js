@@ -1,5 +1,6 @@
 const path = require('path')
 const webpackMerge = require('webpack-merge')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const OptimizeCss = require('optimize-css-assets-webpack-plugin')
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -49,6 +50,7 @@ module.exports = webpackMerge(baseConfig, {
     },
 
     plugins: [
+        new BundleAnalyzerPlugin(),
         new ExtractTextWebpackPlugin({
             filename: '[name].min.[hash:5].css',
             allChunks: true

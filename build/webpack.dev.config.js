@@ -7,7 +7,6 @@ module.exports = webpackMerge(baseConfig, {
     mode: 'development',
     devtool: 'cheap-module-source-map',
     devServer: {
-        port: 8888,
         hot: true,
         overlay: {
             errors: true
