@@ -1,21 +1,25 @@
 .picture-viewer-page {
   .full-view();
   position: relative;
-  padding-top: 20px;
+  overflow: auto;
+  .picture-viewer {
+    padding: 20px 0;
+  }
   .swiper-container {
     .bgc(rgba(0, 0, 0, 0.8));
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 200px;
+    height: 160px;
     padding: 20px 0;
   }
   .swiper-slide {
-    .bgc(white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 18px;
+    .bgc(rgba(0, 0, 0, 0.6));
+    .flex-center();
+    width: 200px;
+    img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 }

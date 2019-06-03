@@ -16,6 +16,7 @@ class PictureViewer extends React.Component {
         minimum: PropTypes.number, // 缩放的最小尺寸【零点几】
         maximum: PropTypes.number, // 缩放的最大尺寸
         children: PropTypes.object.isRequired, // slot 插槽
+        className: PropTypes.string, // className
         center: PropTypes.bool // 图片位置是否初始居中
     }
 
@@ -301,9 +302,9 @@ class PictureViewer extends React.Component {
     }
 
     render() {
-        const { children } = this.props
+        const { children, className } = this.props
         return (
-          <div className="picture-viewer-page">
+          <div className={`picture-viewer-component ${className}`}>
             <div id="viewport"
                  className="viewport"
                  onMouseLeave={this.handleMouseLeave}

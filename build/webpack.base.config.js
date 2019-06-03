@@ -22,6 +22,7 @@ module.exports = {
             '@': path.resolve(__dirname, '../src'),
             'react-dom': '@hot-loader/react-dom',
             views: path.resolve(__dirname, '../src/views'),
+            assets: path.resolve(__dirname, '../src/assets'),
             libs: path.resolve(__dirname, '../src/libs'),
             common: path.resolve(__dirname, '../src/common'),
             components: path.resolve(__dirname, '../src/components'),
