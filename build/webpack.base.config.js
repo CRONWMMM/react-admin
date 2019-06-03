@@ -35,7 +35,7 @@ module.exports = {
                 test: /.js[x]?$/,
                 enforce: 'pre',
                 loader: 'eslint-loader?fix=true',
-                exclude: /node_modules/
+                exclude: /node_modules|libs/
             },
             {
                 test: /.js[x]?$/,
