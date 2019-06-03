@@ -1,8 +1,8 @@
 import React from 'react'
 import { hot } from 'react-hot-loader/root'
 // pluggin
-import 'libs/swiper/js/swiper.min.js'
-import 'libs/swiper/css/swiper.min.css'
+import Swiper from 'swiper'
+import 'swiper/dist/css/swiper.min.css'
 // components
 import PictureViewer from 'components/PictureViewer/PictureViewer'
 // images
@@ -12,7 +12,6 @@ import './PicViewer.less'
 
 class PicViewer extends React.Component {
     componentDidMount() {
-        const Swiper = window.Swiper
         // Swiper
         const bannerSwiper = new Swiper('.swiper-container', { // eslint-disable-line
             slidesPerView: 3,
