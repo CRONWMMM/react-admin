@@ -48,7 +48,7 @@ class PictureViewer extends React.Component {
         imgDOM = viewportDOM.getElementsByTagName('img')[0]
 
         const { width, height } = this.props
-        if (!viewportDOM.clientWidth || !viewportDOM.clientHeight) this.initViewport(width, height)
+        this.initViewport(width, height)
         // 这边需要将滚轮事件使用原生绑定来处理
         // 从而解决新版本 chrome 浏览器带来的 passive event listener
         // 在对图片进行滚动缩放时无法使用 e.preventDefault 来禁用浏览器滚动问题

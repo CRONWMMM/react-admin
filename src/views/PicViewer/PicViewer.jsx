@@ -62,6 +62,10 @@ class PicViewer extends React.Component {
             // 使用 initialSlider 配合 centeredSlides 属性实现
             initialSlide: activeIndex,
             centeredSlides : true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
             // freeMode: true
             on: {
                 click: function(event) {
@@ -83,7 +87,7 @@ class PicViewer extends React.Component {
 
         return (
           <div className="picture-viewer-page">
-            <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="600" height="400">
+            <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="50vw" height="50vh">
               <img src={picSrc} alt="图片" draggable="false" />
             </PictureViewer>
             <div className="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode">
@@ -93,9 +97,9 @@ class PicViewer extends React.Component {
                     <img src={src} alt={name} />
                   </div>
                 ))}
-                {/*<div className="swiper-slide swiper-slide-active">Slide 1</div>*/}
-                {/*<div className="swiper-slide swiper-slide-next">Slide 2</div>*/}
               </div>
+              <div className="swiper-button-next"></div>
+              <div className="swiper-button-prev"></div>
             </div>
           </div>
         )
