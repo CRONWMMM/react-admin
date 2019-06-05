@@ -15,6 +15,7 @@ class PictureViewer extends React.Component {
         height: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // viewport 视口的高度
         minimum: PropTypes.number, // 缩放的最小尺寸【零点几】
         maximum: PropTypes.number, // 缩放的最大尺寸
+        rate: PropTypes.number, // 缩放的速率
         children: PropTypes.object.isRequired, // slot 插槽
         className: PropTypes.string, // className
         center: PropTypes.bool // 图片位置是否初始居中
@@ -25,6 +26,7 @@ class PictureViewer extends React.Component {
         height: '400px',
         minimum: 0.8,
         maximum: 8,
+        rate: 10,
         center: true
     }
 
@@ -44,27 +46,24 @@ class PictureViewer extends React.Component {
     componentDidMount() {
         viewportDOM = document.getElementById('viewport')
         imgDOM = viewportDOM.getElementsByTagName('img')[0]
+
+        const { width, height } = this.props
+        if (!viewportDOM.clientWidth || !viewportDOM.clientHeight) this.initViewport(width, height)
         // 这边需要将滚轮事件使用原生绑定来处理
         // 从而解决新版本 chrome 浏览器带来的 passive event listener
         // 在对图片进行滚动缩放时无法使用 e.preventDefault 来禁用浏览器滚动问题
         imgDOM.addEventListener('wheel', this.handleMouseWheel, { passive: false })
 
-        this.init()
+        this.initPictureInfo()
     }
 
     componentWillReceiveProps() {
-        this.init()
+        this.initPictureInfo()
     }
 
     componentWillUpdate(nextProps, nextState) {
         const {currentLeft, currentTop} = nextState
         this.changePosition(currentLeft, currentTop)
-    }
-
-    init() {
-        const { width, height } = this.props
-        this.initViewport(width, height)
-        this.initPictureInfo()
     }
 
     initViewport = (width, height) => {
@@ -95,21 +94,25 @@ class PictureViewer extends React.Component {
         imgDOM.style.width = imgDOM.style.height = 'auto'
         imgDOM.style.maxWidth = imgDOM.style.maxHeight = '100%'
 
-        const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
-        const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
+        // 使用设置 style 方式使图片自适应之后，js 并不能马上就获取到图片的最新尺寸
+        // 所以需要延时处理
+        setTimeout(() => {
+            const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
+            const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
 
-        // 设置图片默认位置居中
-        const [ top, left ] = [ center ? (viewPortHeight - imageHeight) / 2 : 0, center ? (viewPortWidth - imageWidth) / 2 : 0 ]
-        center && this.changePosition(left, top)
+            // 设置图片默认位置居中
+            const [ top, left ] = [ center ? (viewPortHeight - imageHeight) / 2 : 0, center ? (viewPortWidth - imageWidth) / 2 : 0 ]
+            center && this.changePosition(left, top)
 
-        this.setState({
-            imageWidth,
-            imageHeight,
-            currentLeft: left,
-            currentTop: top,
-            startLeft: left,
-            startTop: top
-        })
+            this.setState({
+                imageWidth,
+                imageHeight,
+                currentLeft: left,
+                currentTop: top,
+                startLeft: left,
+                startTop: top
+            })
+        },0)
     }
 
     /**
@@ -197,13 +200,13 @@ class PictureViewer extends React.Component {
      * @param e {Event Object} 事件对象
      */
     handleMouseWheel = (e) => {
-        const { minimum, maximum } = this.props
+        const { minimum, maximum, rate } = this.props
         const { imageWidth: originWidth, imageHeight: originHeight, currentLeft, currentTop, scale: lastScale } = this.state
         const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
         const event = e.nativeEvent || e
         event.preventDefault()
         // 这块的 scale 每次都需要用 1 去加，作为图片的实时缩放比率
-        let scale = 1 + event.wheelDelta / 1200
+        let scale = 1 + event.wheelDelta / (12000 / rate)
 
         // 最小缩放至 minimum 就不能再缩小了
         // 最大放大至 maximum 倍就不能再放大了
@@ -304,15 +307,13 @@ class PictureViewer extends React.Component {
     render() {
         const { children, className } = this.props
         return (
-          <div className={`picture-viewer-component ${className}`}>
-            <div id="viewport"
-                 className="viewport"
-                 onMouseLeave={this.handleMouseLeave}
-                 onMouseDown={this.handleMouseDown}
-                 onMouseMove={this.handleMouseMove}
-                 onMouseUp={this.handleMouseUp}>
-              {children}
-            </div>
+          <div id="viewport"
+               className={`picture-viewer-component ${className}`}
+               onMouseLeave={this.handleMouseLeave}
+               onMouseDown={this.handleMouseDown}
+               onMouseMove={this.handleMouseMove}
+               onMouseUp={this.handleMouseUp}>
+            {children}
           </div>
         )
     }

@@ -12,13 +12,12 @@ import pic3 from 'assets/images/pic3.jpg'
 import pic4 from 'assets/images/pic4.jpg'
 import pic5 from 'assets/images/pic5.jpg'
 import pic6 from 'assets/images/pic6.jpg'
-// images
-import picture1 from '../../assets/images/banner.jpg'
 // style
 import './PicViewer.less'
 
 class PicViewer extends React.Component {
     state = {
+        activeIndex: 0,
         imageList: [
             {
                 name: '图片1',
@@ -47,22 +46,45 @@ class PicViewer extends React.Component {
         ]
     }
 
+    constructor() {
+        super()
+        this.pictureViewerRef = React.createRef()
+    }
+
     componentDidMount() {
+        const self = this
+        const { activeIndex } = self.state
+
         // Swiper
-        const bannerSwiper = new Swiper('.swiper-container', { // eslint-disable-line
-            slidesPerView: 3,
+        const picSwiper = new Swiper('.swiper-container', { // eslint-disable-line
+            slidesPerView: 6,
             spaceBetween: 30,
-            freeMode: true
+            // 使用 initialSlider 配合 centeredSlides 属性实现
+            initialSlide: activeIndex,
+            centeredSlides : true,
+            // freeMode: true
+            on: {
+                click: function(event) {
+                    console.log(event)
+                },
+                slideChange: function() {
+                    const { activeIndex } = picSwiper
+                    self.setState({
+                        activeIndex
+                    })
+                }
+            }
         })
     }
 
     render() {
-        const { imageList } = this.state
+        const { imageList, activeIndex } = this.state
+        const { src: picSrc } = imageList[activeIndex]
 
         return (
           <div className="picture-viewer-page">
-            <PictureViewer className="picture-viewer" width="600" height="400">
-              <img src={picture1} alt="图片" draggable="false" />
+            <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="600" height="400">
+              <img src={picSrc} alt="图片" draggable="false" />
             </PictureViewer>
             <div className="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode">
               <div className="swiper-wrapper">

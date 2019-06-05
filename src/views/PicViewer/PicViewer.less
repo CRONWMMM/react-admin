@@ -3,18 +3,37 @@
   position: relative;
   overflow: auto;
   .picture-viewer {
+    .bgc(rgba(0, 0, 0, 0.8));
+    display: block;
+    margin: 20px auto;
     padding: 20px 0;
+    border: 1px solid #b5bac1;
   }
   .swiper-container {
     .bgc(rgba(0, 0, 0, 0.8));
     width: 100%;
-    height: 160px;
+    height: 200px;
     padding: 20px 0;
   }
   .swiper-slide {
     .bgc(rgba(0, 0, 0, 0.6));
     .flex-center();
-    width: 200px;
+    position: relative;
+    width: 50px;
+    &.swiper-slide-active {
+      &::after {
+        display: none;
+      }
+    }
+    &::after {
+      .position-full();
+      content: '';
+      display: block;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    &:hover {
+      cursor: pointer;
+    }
     img {
       width: auto;
       height: auto;
