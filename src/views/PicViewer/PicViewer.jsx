@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader/root'
 import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 // components
+import { Alert } from 'antd'
 import PictureViewer from 'components/PictureViewer/PictureViewer'
 // images
 import pic1 from 'assets/images/pic1.jpg'
@@ -20,27 +21,27 @@ class PicViewer extends React.Component {
         activeIndex: 0,
         imageList: [
             {
-                name: '图片1',
+                name: '酒吧',
                 src: pic1
             },
             {
-                name: '图片2',
+                name: '花火',
                 src: pic2
             },
             {
-                name: '图片3',
+                name: '云海',
                 src: pic3
             },
             {
-                name: '图片4',
+                name: '海岛',
                 src: pic4
             },
             {
-                name: '图片5',
+                name: '猫头鹰',
                 src: pic5
             },
             {
-                name: '图片6',
+                name: '歪果仁',
                 src: pic6
             },
         ]
@@ -57,7 +58,7 @@ class PicViewer extends React.Component {
 
         // Swiper
         const picSwiper = new Swiper('.swiper-container', { // eslint-disable-line
-            slidesPerView: 6,
+            slidesPerView: 5,
             spaceBetween: 30,
             // 使用 initialSlider 配合 centeredSlides 属性实现
             initialSlide: activeIndex,
@@ -87,9 +88,18 @@ class PicViewer extends React.Component {
 
         return (
           <div className="picture-viewer-page">
-            <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="50vw" height="50vh" minimum={1}>
-              <img src={picSrc} alt="图片" draggable="false" />
-            </PictureViewer>
+            <div className="window-wrap">
+              <div className="left-part">
+                <Alert type="info"
+                       showIcon
+                       closable
+                       message="图片查看器组件，使用鼠标滚轮进行图片缩放，使用鼠标进行图片拖拽。" />
+                <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="50vw" height="50vh" minimum={1}>
+                  <img src={picSrc} alt="图片" draggable="false" />
+                </PictureViewer>
+              </div>
+              <div className="right-part"></div>
+            </div>
             <div className="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode">
               <div className="swiper-wrapper">
                 {imageList.map(({ src, name }) => (
@@ -98,8 +108,8 @@ class PicViewer extends React.Component {
                   </div>
                 ))}
               </div>
-              <div className="swiper-button-next"></div>
-              <div className="swiper-button-prev"></div>
+              <i className="iconfont iconright swiper-button-next"></i>
+              <i className="iconfont iconleft swiper-button-prev "></i>
             </div>
           </div>
         )

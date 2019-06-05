@@ -1,22 +1,61 @@
+@container-height: 200px;
+
 .picture-viewer-page {
   .full-view();
   position: relative;
   overflow: auto;
+  .window-wrap {
+    position: relative;
+    display: flex;
+    height: calc(100% - @container-height);
+    box-sizing: border-box;
+    overflow: auto;
+    .left-part {
+      flex: 2;
+      padding: 20px;
+    }
+    .right-part {
+      .bgc(white);
+      flex: 1;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      box-shadow: 0 0 20px #d1dae2;
+    }
+  }
+  .ant-alert-info {
+    width: 50vw;
+    margin: 0 0 20px;
+  }
   .picture-viewer {
     .bgc(#34414c);
     display: block;
-    margin: 40px auto 0;
     padding: 20px 0;
     border: 1px solid #b5bac1;
   }
   .swiper-container {
     .bgc(rgba(207, 213, 220, 0.8));
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 200px;
+    height: @container-height;
     padding: 20px 0;
     border-top: 1px solid #adb4bb;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      z-index: 2;
+      display: block;
+      width: 60px;
+      height: 100%;
+    }
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.4) , rgba(255, 255, 255, 0));
+    }
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(255, 255, 255, 0.4) , rgba(255, 255, 255, 0));
+    }
   }
   .swiper-slide {
     .bgc(#34414c);
@@ -31,7 +70,7 @@
       .position-full();
       content: '';
       display: block;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.65);
     }
     &:hover {
       cursor: pointer;
@@ -43,4 +82,20 @@
       max-height: 100%;
     }
   }
+  .swiper-button-next, .swiper-button-prev {
+    .bgc(white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #97abc1;
+    border-radius: 50%;
+    color: #97abc1;
+    background-image: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .swiper-button-disabled {}
 }
