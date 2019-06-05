@@ -87,7 +87,7 @@ class PicViewer extends React.Component {
 
         return (
           <div className="picture-viewer-page">
-            <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="50vw" height="50vh">
+            <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="50vw" height="50vh" minimum={1}>
               <img src={picSrc} alt="图片" draggable="false" />
             </PictureViewer>
             <div className="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode">
