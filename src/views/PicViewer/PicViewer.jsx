@@ -94,6 +94,19 @@ class PicViewer extends React.Component {
         })
     }
 
+    /**
+     * 使用 shouldComponentUpdate 来手动决定是否需要 re-render
+     * 否则一旦父组件因为自己的改变而 re-render ，也会波及到子组件
+     * @param nextProp
+     * @param nextState
+     * @returns {boolean}
+     */
+    shouldComponentUpdate(nextProp, nextState) {
+        const { activeIndex: currentActiveIndex } = this.state
+        const { activeIndex: nextActiveIndex } = nextState
+        return currentActiveIndex !== nextActiveIndex
+    }
+
     render() {
         const { imageList, activeIndex } = this.state
         const { src: picSrc, name, desc, time } = imageList[activeIndex]
