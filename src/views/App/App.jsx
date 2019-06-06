@@ -72,7 +72,7 @@ class App extends React.Component {
             pathList.pop()
         }
 
-        return result.map(({name, path, meta: { tag }}) => <Breadcrumb.Item key={name || path}>{tag}</Breadcrumb.Item>)
+        return result.map(({name, path, meta: { tag } = {}}) => <Breadcrumb.Item key={name || path}>{tag}</Breadcrumb.Item>)
     }
 
     render () {
