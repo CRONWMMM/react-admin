@@ -21,25 +21,25 @@ function typeOf (obj) {
     return map[toString.call(obj)]
 }
 function isNumber (obj) {
-    return this.typeOf(obj) === 'number' && !isNaN(obj)
+    return typeOf(obj) === 'number' && !isNaN(obj)
 }
 function isNaN (obj) {
     return obj.toString() === 'NaN'
 }
 function isString (obj) {
-    return this.typeOf(obj) === 'string'
+    return typeOf(obj) === 'string'
 }
 function isFunction (obj) {
-    return this.typeOf(obj) === 'function'
+    return typeOf(obj) === 'function'
 }
 function isArray (obj) {
-    return this.typeOf(obj) === 'array'
+    return typeOf(obj) === 'array'
 }
 function isObject (obj) {
-    return this.typeOf(obj) === 'object'
+    return typeOf(obj) === 'object'
 }
 function isUndefined (obj) {
-    return this.typeOf(obj) === 'undefined'
+    return typeOf(obj) === 'undefined'
 }
 
 /**
@@ -63,6 +63,42 @@ function isEmpty(obj){
         return !(obj.trim()).length>0
     } else {								// error
         throw new Error("empty函数接收的参数类型：对象、数组、字符串");
+    }
+}
+
+/**
+ * 判断两个对象是否一样（注意，一样不是相等）
+ * 1. 如果是非引用类型的值，直接使用全等比较
+ * 2. 如果是数组或对象，则会先比较引用指针是否一一致
+ * 3. 引用指针不一致，再比较每一项是否相同
+ *
+ * @param target {All data types} 参照对象
+ * @param obj {All data types} 比较对象
+ * @returns {*}
+ */
+function isEqual(target, obj) {
+    if (typeof target !== typeof obj) {
+        return false
+    } else if (typeof target === 'object') {
+        if (target === obj) { // 先比较引用
+            return true
+        } else if (Array.isArray(target)) { // 数组
+            if (target.length !== obj.length) { // 长度不同直接 return false
+                return false
+            } else { // 否则依次比较每一项
+                return target.every((item, i) => isEqual(item, obj[i]))
+            }
+        } else { // 对象
+            const targetKeyList = Object.keys(target)
+            const objKeyList = Object.keys(obj)
+            if (targetKeyList.length !== objKeyList.length) { // 如果 keyList 的长度不同直接 return false
+                return false
+            } else {
+                return targetKeyList.every((key) => isEqual(target[key], obj[key]))
+            }
+        }
+    } else {
+        return target === obj
     }
 }
 
@@ -161,6 +197,7 @@ export {
     isString,
     isUndefined,
     isEmpty,
+    isEqual,
     fullScreen,
     normalScreen,
     findDeeply,
