@@ -119,7 +119,7 @@ class PicViewer extends React.Component {
                        showIcon
                        closable
                        message="图片查看器组件，使用鼠标滚轮进行图片缩放，使用鼠标进行图片拖拽。" />
-                <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="50vw" height="50vh" minimum={1}>
+                <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="100%" height="50vh" minimum={1}>
                   <img src={picSrc} alt="图片" draggable="false" />
                 </PictureViewer>
               </div>

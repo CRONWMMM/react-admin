@@ -281,26 +281,20 @@ class PictureViewer extends React.Component {
     }
 
     /**
-     * 获取某个 DOM 元素相对页面的offset
+     * 获取某个 DOM 元素相对视口的位置信息
      * @param el {object} 目标元素
-     * @return object 包括offsetLeft和offsetTop
+     * @return object {object} 位置信息对象
      */
     _getOffset = (el) => {
         const doc = document.documentElement
-        let [ left, top, right, bottom, parent ] = [0, 0, 0, 0, el.offsetParent]
-        while (parent != null) {
-            left += el.offsetLeft
-            top += el.offsetTop
-            el = parent
-            parent = el.offsetParent
-        }
-        right = doc.offsetWidth - el.offsetWidth - left
-        bottom = doc.offsetHeight - el.offsetHeight - top
+        const docClientWidth = doc.clientWidth
+        const docClientHeight = doc.clientHeight
+        let positionInfo = el.getBoundingClientRect()
         return {
-            left,
-            top,
-            right,
-            bottom
+            left: positionInfo.left,
+            top: positionInfo.top,
+            right: docClientWidth - positionInfo.right,
+            bottom: docClientHeight - positionInfo.bottom
         }
     }
 
