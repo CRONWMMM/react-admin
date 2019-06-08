@@ -11,6 +11,7 @@ import './Avatar.less'
 class Avatar extends React.Component {
     static propTypes = {
         username: PropTypes.string,
+        avatar: PropTypes.string,
         logoffUserInfo: PropTypes.func.isRequired
     }
 
@@ -24,7 +25,10 @@ class Avatar extends React.Component {
 
     render() {
         const { Item: MenuItem } = Menu
-        const { username } = this.props
+        let { username, avatar } = this.props
+        username = username || '不写 bug 的米公子'
+        avatar = avatar || require('../../assets/images/avatar.jpg')
+
         const UserMenu = (
           <Menu>
             <MenuItem>
@@ -43,8 +47,8 @@ class Avatar extends React.Component {
         return (
           <Dropdown overlay={UserMenu} placement="bottomCenter" trigger={[ 'click' ]}>
             <div className="avatar-component">
-              <span className="avatar"></span>
-              <span className="user-name">{username || '不写 bug 的米公子'}</span>
+              <img className="avatar" src={avatar} alt="avatar" />
+              <span className="user-name">{username}</span>
               <Icon type="caret-down" />
             </div>
           </Dropdown>

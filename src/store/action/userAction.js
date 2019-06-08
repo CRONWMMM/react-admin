@@ -2,7 +2,8 @@ import { UPDATE_USERINFO } from './types'
 
 function updateUserInfo (data = {
     username: '',
-    password: ''
+    password: '',
+    avatar: ''
 }) {
     return {
         type: UPDATE_USERINFO,
