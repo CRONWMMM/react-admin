@@ -71,7 +71,7 @@
     "@babel/polyfill": "^7.4.3",
     "@babel/runtime": "^7.4.3",
     "@hot-loader/react-dom": "^16.8.6",
-    "antd": "^3.17.0",
+    "antd": "3.19.2",
     "echarts": "^4.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
