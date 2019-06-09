@@ -12,6 +12,7 @@ class AvatarFrame extends React.Component {
         username: PropTypes.string,
         avatar: PropTypes.string,
         type: PropTypes.string,
+        className: PropTypes.string,
         size: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
@@ -24,7 +25,7 @@ class AvatarFrame extends React.Component {
     }
 
     render() {
-        let { avatar, size, type } = this.props
+        let { avatar, size, type, className } = this.props
         size = isNaN(+size) ? size : `${size}px`
         const style = {
             width: size,
@@ -33,7 +34,7 @@ class AvatarFrame extends React.Component {
         avatar = avatar || require('../../../../assets/images/avatar.jpg')
 
         return (
-          <div className={`avatar-frame-component ${type}`} style={style}>
+          <div className={`avatar-frame-component ${type} ${className}`} style={style}>
             <img src={avatar} alt="avatar" draggable={false} />
             <span className="btn">更换头像</span>
           </div>

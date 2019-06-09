@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Descriptions } from 'antd'
+import { Typography, Descriptions, Divider, Icon } from 'antd'
 import { hot } from 'react-hot-loader/root'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -30,14 +30,16 @@ class UserInfo extends React.Component {
         return (
           <div className="user-info-page">
             <div className="left-part">
-              <AvatarFrame type="rect" />
+              <AvatarFrame className="avatar-frame" type="rect" />
+              <Icon type="github" />
             </div>
             <div className="right-part">
               <Descriptions title="个人信息" border>
                 <Descriptions className="Item" label="用户名">
-                  <Paragraph editable={{ onChange: this.onChange }}>{username}</Paragraph>
+                  <Paragraph editable={{ onChange: this.onChange }} type="secondary">{username}</Paragraph>
                 </Descriptions>
               </Descriptions>
+              <Divider />
             </div>
           </div>
         )

@@ -2,16 +2,25 @@
   position: relative;
   display: flex;
   width: 100%;
-  min-height: 200%;
+  height: 100%;
   padding: 20px;
   overflow: auto;
+  .avatar-frame {
+    display: block;
+    margin: 10px auto;
+  }
   .left-part {
-    flex: 1;
+    .bgc(white);
+    flex: 2;
     margin-right: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(15, 30, 66, 0.08);
   }
   .right-part {
     .bgc(white);
-    flex: 4;
+    flex: 6;
     padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(15, 30, 66, 0.08);
   }
 }
