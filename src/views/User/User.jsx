@@ -16,7 +16,6 @@ class User extends React.Component {
 
         return (
           <div className="user-page">
-                This is User Page.
             {
                   userSubRoutes.map(route => {
                       const { exact, path, name, redirect, component } = route
