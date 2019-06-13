@@ -11,6 +11,7 @@ let [ viewportDOM, imgDOM ] = [ null, null ]
 class PictureViewer extends React.Component {
 
     static propTypes = {
+        key: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // 组件唯一的标识 key
         width: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // viewport 视口的宽度
         height: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // viewport 视口的高度
         minimum: PropTypes.number, // 缩放的最小尺寸【零点几】
@@ -22,6 +23,7 @@ class PictureViewer extends React.Component {
     }
 
     static defaultProps = {
+        key: 'viewport',
         width: '600px',
         height: '400px',
         minimum: 0.8,
@@ -44,10 +46,11 @@ class PictureViewer extends React.Component {
     }
 
     componentDidMount() {
-        viewportDOM = document.getElementById('viewport')
+        const { key, width, height } = this.props
+
+        viewportDOM = document.getElementById(key)
         imgDOM = viewportDOM.getElementsByTagName('img')[0]
 
-        const { width, height } = this.props
         this.initViewport(width, height)
         // 这边需要将滚轮事件使用原生绑定来处理
         // 从而解决新版本 chrome 浏览器带来的 passive event listener
@@ -62,8 +65,14 @@ class PictureViewer extends React.Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const {currentLeft, currentTop} = nextState
+        const { scale, imageWidth: originWidth, imageHeight: originHeight, currentLeft, currentTop } = nextState
+        const currentImageWidth = scale * originWidth
+        const currentImageHeight = scale * originHeight
+
+        // 改变图片位置
         this.changePosition(currentLeft, currentTop)
+        // 改变图片尺寸
+        this.changeSize(currentImageWidth, currentImageHeight)
     }
 
     initViewport = (width, height) => {
@@ -81,9 +90,10 @@ class PictureViewer extends React.Component {
         if (!imgDOM.clientWidth || !imgDOM.clientHeight) {
             return setTimeout(this.initPictureInfo, 0)
         }
-
         const { center } = this.props
-        this.changeToContain(center)
+        // this.changeToContain(center)
+        // TODO 这边没法拿到最新的 imgDOM.src 所以延迟了 20ms 执行，后面看看有没有好的解决办法
+        setTimeout(this.changeToContain, 20, center)
     }
 
     /**
@@ -91,20 +101,15 @@ class PictureViewer extends React.Component {
      * @param center {Boolean} 是否需要设置图片默认位置居中
      */
     changeToContain = (center = true) => {
-        imgDOM.style.width = imgDOM.style.height = 'auto'
-        imgDOM.style.maxWidth = imgDOM.style.maxHeight = '100%'
-
-        // 使用设置 style 方式使图片自适应之后，js 并不能马上就获取到图片的最新尺寸
-        // 所以需要延时处理
-        setTimeout(() => {
+        this._getImageOriginSize(imgDOM).then(({ width: imageOriginWidth, height: imageOriginHeight }) => {
             const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
-            const [ imageWidth, imageHeight ] = [ imgDOM.clientWidth, imgDOM.clientHeight ]
-
+            const { imageWidth, imageHeight } = this.reclacImageSizeToContain(imageOriginWidth, imageOriginHeight)
             // 设置图片默认位置居中
             const [ top, left ] = [ center ? (viewPortHeight - imageHeight) / 2 : 0, center ? (viewPortWidth - imageWidth) / 2 : 0 ]
             center && this.changePosition(left, top)
 
             this.setState({
+                scale: 1,
                 imageWidth,
                 imageHeight,
                 currentLeft: left,
@@ -112,7 +117,29 @@ class PictureViewer extends React.Component {
                 startLeft: left,
                 startTop: top
             })
-        },0)
+        })
+    }
+
+    /**
+     * 重新计算图片尺寸，使宽高都不会超过视口尺寸
+     * @param imageWidth
+     * @param imageHeight
+     * @returns {*}
+     */
+    reclacImageSizeToContain = (imageWidth, imageHeight) => {
+        const rate = imageWidth / imageHeight
+        const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
+        if (imageWidth > viewPortWidth) {
+            imageWidth = viewPortWidth
+            imageHeight = imageWidth / rate
+            return this.reclacImageSizeToContain(imageWidth, imageHeight)
+        } else if (imageHeight > viewPortHeight) {
+            imageHeight = viewPortHeight
+            imageWidth = imageHeight * rate
+            return this.reclacImageSizeToContain(imageWidth, imageHeight)
+        } else {
+            return { imageWidth, imageHeight }
+        }
     }
 
     /**
@@ -228,9 +255,6 @@ class PictureViewer extends React.Component {
         let newLeft = rateX * currentImageWidth
         let newTop = rateY * currentImageHeight
 
-        // 改变图片尺寸
-        this.changeSize(currentImageWidth, currentImageHeight)
-
         this.setState({
             scale: nextScale,
             startLeft: currentLeft + (left - newLeft),
@@ -298,10 +322,32 @@ class PictureViewer extends React.Component {
         }
     }
 
+    /**
+     * 获取图片原始尺寸信息
+     * @param image
+     * @returns {Promise<any>}
+     * @private
+     */
+    _getImageOriginSize = (image) => {
+        const src = typeof image === 'object' ? image.src : image
+
+        return new Promise(resolve => {
+            const image = new Image()
+            image.src = src
+            image.onload = function () {
+                const { width, height } = image
+                resolve({
+                    width,
+                    height
+                })
+            }
+        })
+    }
+
     render() {
-        const { children, className } = this.props
+        const { key, children, className } = this.props
         return (
-          <div id="viewport"
+          <div id={key}
                className={`picture-viewer-component ${className}`}
                onMouseLeave={this.handleMouseLeave}
                onMouseDown={this.handleMouseDown}
