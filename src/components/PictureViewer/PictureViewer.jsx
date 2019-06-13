@@ -46,7 +46,7 @@ class PictureViewer extends React.Component {
     }
 
     componentDidMount() {
-        const { key, width, height } = this.props
+        const { key, width, height, children } = this.props
 
         viewportDOM = document.getElementById(key)
         imgDOM = viewportDOM.getElementsByTagName('img')[0]
@@ -57,11 +57,11 @@ class PictureViewer extends React.Component {
         // 在对图片进行滚动缩放时无法使用 e.preventDefault 来禁用浏览器滚动问题
         imgDOM.addEventListener('wheel', this.handleMouseWheel, { passive: false })
 
-        this.initPictureInfo()
+        this.initPictureInfo(children.props.src)
     }
 
-    componentWillReceiveProps() {
-        this.initPictureInfo()
+    componentWillReceiveProps(nextProps) {
+        this.initPictureInfo(nextProps.children.props.src)
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -85,23 +85,23 @@ class PictureViewer extends React.Component {
      * 图片初始化，包括：
      * 1. 初始图片位置居中
      * 2. 记录初始图片尺寸
+     * @param src {String} 需要操作的图片的 src
+     * @param center {Boolean} 是否需要设置图片默认位置居中
      */
-    initPictureInfo = () => {
+    initPictureInfo = (src, center = true) => {
         if (!imgDOM.clientWidth || !imgDOM.clientHeight) {
-            return setTimeout(this.initPictureInfo, 0)
+            return setTimeout(this.initPictureInfo, 0, src)
         }
-        const { center } = this.props
-        // this.changeToContain(center)
-        // TODO 这边没法拿到最新的 imgDOM.src 所以延迟了 20ms 执行，后面看看有没有好的解决办法
-        setTimeout(this.changeToContain, 20, center)
+        this.changeToContain(src, center)
     }
 
     /**
      * 设置图片尺寸为 contain
+     * @param src {String} 需要操作的图片的 src
      * @param center {Boolean} 是否需要设置图片默认位置居中
      */
-    changeToContain = (center = true) => {
-        this._getImageOriginSize(imgDOM).then(({ width: imageOriginWidth, height: imageOriginHeight }) => {
+    changeToContain = (src, center = true) => {
+        this._getImageOriginSize(src).then(({ width: imageOriginWidth, height: imageOriginHeight }) => {
             const [ viewPortWidth, viewPortHeight ] = [ viewportDOM.clientWidth, viewportDOM.clientHeight ]
             const { imageWidth, imageHeight } = this.reclacImageSizeToContain(imageOriginWidth, imageOriginHeight)
             // 设置图片默认位置居中
