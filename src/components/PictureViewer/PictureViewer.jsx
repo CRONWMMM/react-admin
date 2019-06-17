@@ -11,7 +11,7 @@ let [ viewportDOM, imgDOM ] = [ null, null ]
 class PictureViewer extends React.Component {
 
     static propTypes = {
-        key: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // 组件唯一的标识 key
+        id: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // 组件唯一的标识 id
         width: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // viewport 视口的宽度
         height: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]), // viewport 视口的高度
         minimum: PropTypes.number, // 缩放的最小尺寸【零点几】
@@ -23,7 +23,7 @@ class PictureViewer extends React.Component {
     }
 
     static defaultProps = {
-        key: 'viewport',
+        id: 'viewport',
         width: '600px',
         height: '400px',
         minimum: 0.8,
@@ -46,9 +46,9 @@ class PictureViewer extends React.Component {
     }
 
     componentDidMount() {
-        const { key, width, height, children } = this.props
+        const { id, width, height, children: { props: { src } }, center } = this.props
 
-        viewportDOM = document.getElementById(key)
+        viewportDOM = document.getElementById(id)
         imgDOM = viewportDOM.getElementsByTagName('img')[0]
 
         this.initViewport(width, height)
@@ -57,11 +57,12 @@ class PictureViewer extends React.Component {
         // 在对图片进行滚动缩放时无法使用 e.preventDefault 来禁用浏览器滚动问题
         imgDOM.addEventListener('wheel', this.handleMouseWheel, { passive: false })
 
-        this.initPictureInfo(children.props.src)
+        this.initPictureInfo(src, center)
     }
 
     componentWillReceiveProps(nextProps) {
-        this.initPictureInfo(nextProps.children.props.src)
+        const { children: { props: { src } }, center } = nextProps
+        this.initPictureInfo(src, center)
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -90,7 +91,7 @@ class PictureViewer extends React.Component {
      */
     initPictureInfo = (src, center = true) => {
         if (!imgDOM.clientWidth || !imgDOM.clientHeight) {
-            return setTimeout(this.initPictureInfo, 0, src)
+            return setTimeout(this.initPictureInfo, 0, src, center)
         }
         this.changeToContain(src, center)
     }
@@ -345,9 +346,9 @@ class PictureViewer extends React.Component {
     }
 
     render() {
-        const { key, children, className } = this.props
+        const { id, children, className } = this.props
         return (
-          <div id={key}
+          <div id={id}
                className={`picture-viewer-component ${className}`}
                onMouseLeave={this.handleMouseLeave}
                onMouseDown={this.handleMouseDown}
