@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 // components
 import AvatarFrame from '../../components/AvatarFrame/AvatarFrame'
-import EditableField from '../../components/EditableField/EditableField'
+// import EditableField from '../../components/EditableField/EditableField'
 // actions
 import { updateUserInfo } from '../../../../store/action/userAction'
 // style
@@ -20,7 +20,8 @@ class UserInfo extends React.Component {
     }
 
     state = {
-        value: 'hello world.'
+        github: 'https://github.com/CRONWMMM',
+        wechat: 'mty770224024'
     }
 
     onChange = str => {
@@ -28,14 +29,14 @@ class UserInfo extends React.Component {
         resetUserName(str)
     }
 
-    handleChange = (value) => {
+    handleChange = (stateKey, value) => {
         this.setState({
-            value
+            'stateKey': value
         })
     }
 
     render() {
-        const { value } = this.state
+        // const { github, wechat } = this.state
         let { username } = this.props
         username = username || '不写 bug 的米公子'
 
@@ -43,7 +44,8 @@ class UserInfo extends React.Component {
           <div className="user-info-page">
             <div className="left-part">
               <AvatarFrame className="avatar-frame" type="rect" />
-              <EditableField icon="github" onChange={this.handleChange}>{value}</EditableField>
+              {/*<EditableField icon="github" onChange={val => this.handleChange('github', val)}>{github}</EditableField>*/}
+              {/*<EditableField icon="wechat" onChange={val => this.handleChange('wechat', val)}>{wechat}</EditableField>*/}
             </div>
             <div className="right-part">
               <Descriptions title="个人信息" border>

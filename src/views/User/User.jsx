@@ -17,25 +17,25 @@ class User extends React.Component {
         return (
           <div className="user-page">
             {
-                  userSubRoutes.map(route => {
-                      const { exact, path, name, redirect, component } = route
-                      if (!redirect) {
-                          return (
-                            <Route exact={exact ? true : false}
-                                   path={path}
-                                   key={name || path}
-                                   component={component} />
-                          )
-                      } else {
-                          return (
-                            <Route exact={exact ? true : false}
-                                   path={path}
-                                   key={name || path}
-                                   render={() => (<Redirect to={redirect} />)} />
-                          )
-                      }
-                  })
-              }
+                userSubRoutes.map(route => {
+                    const { exact, path, name, redirect, component } = route
+                    if (!redirect) {
+                        return (
+                          <Route exact={exact ? true : false}
+                                 path={path}
+                                 key={name || path}
+                                 component={component} />
+                        )
+                    } else {
+                        return (
+                          <Route exact={exact ? true : false}
+                                 path={path}
+                                 key={name || path}
+                                 render={() => (<Redirect to={redirect} />)} />
+                        )
+                    }
+                })
+            }
           </div>
         )
     }

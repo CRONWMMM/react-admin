@@ -1,14 +1,22 @@
+@height: 30px;
+
 .editable-field {
-  .line-height(40px);
+  .line-height(@height);
   position: relative;
   display: flex;
+  width: 200px;
   font-size: 14px;
   .input {
     display: inline-block;
   }
+  .field {
+    display: inline-block;
+    width: 100%;
+  }
   .text {
     .ellipsis();
     display: inline-block;
+    max-width: calc(100% - 36px);
     margin: 0 10px;
   }
   .field-icon {
@@ -17,6 +25,9 @@
     font-size: 20px;
   }
   .btn-icon {
+    .line-height(inherit);
+    display: inline-block;
+    vertical-align: top;
     &:hover {
       color: #1890ff;
     }

@@ -56,7 +56,7 @@ class EditableField extends React.Component {
 
     render() {
         const { active } = this.state
-        const { icon, children } = this.props
+        const { icon, children, editable } = this.props
 
         /* eslint-disable */
         return (
@@ -71,8 +71,8 @@ class EditableField extends React.Component {
                                 onPressEnter={this.handleEnter}
                                 onChange={this.handleChange} />) :
                         (<span className="field">
-                          <span className="text">{children}</span>
-                          <Icon type="form" className="btn-icon" onClick={this.handleEditBtnClick} />
+                          <span className="text" title={children}>{children}</span>
+                          {editable ? <Icon type="form" className="btn-icon" onClick={this.handleEditBtnClick} /> : null}
                          </span>)
                 }
             </div>
