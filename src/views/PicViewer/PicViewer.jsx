@@ -5,7 +5,8 @@ import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 // components
 import { Alert } from 'antd'
-import PictureViewer from 'components/PictureViewer/PictureViewer'
+import PictureViewer from 'react-picture-viewer'
+// import PictureViewer from 'components/PictureViewer/PictureViewer'
 // images
 import pic1 from 'assets/images/pic1.jpg'
 import pic2 from 'assets/images/pic2.jpg'
@@ -119,7 +120,7 @@ class PicViewer extends React.Component {
                        showIcon
                        closable
                        message="图片查看器组件，使用鼠标滚轮进行图片缩放，使用鼠标进行图片拖拽。" />
-                <PictureViewer ref={this.pictureViewerRef} className="picture-viewer" width="100%" height="50vh" minimum={1}>
+                <PictureViewer id="picture-viewer" contain center ref={this.pictureViewerRef} className="picture-viewer" width="100%" height="50vh">
                   <img src={picSrc} alt="图片" draggable="false" />
                 </PictureViewer>
               </div>
