@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 // components
 import AvatarFrame from '../../components/AvatarFrame/AvatarFrame'
+import CalendarMap from '../../components/CalendarMap/CalendarMap'
 // import EditableField from '../../components/EditableField/EditableField'
 // actions
 import { updateUserInfo } from '../../../../store/action/userAction'
@@ -53,7 +54,8 @@ class UserInfo extends React.Component {
                   <Paragraph editable={{ onChange: this.onChange }} type="secondary">{username}</Paragraph>
                 </Descriptions>
               </Descriptions>
-              <Divider />
+              <Divider orientation="left">最近一年有 17788 次提交记录</Divider>
+              <CalendarMap />
             </div>
           </div>
         )
