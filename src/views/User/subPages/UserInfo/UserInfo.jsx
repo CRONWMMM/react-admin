@@ -43,19 +43,24 @@ class UserInfo extends React.Component {
 
         return (
           <div className="user-info-page">
-            <div className="left-part">
-              <AvatarFrame className="avatar-frame" type="rect" />
-              {/*<EditableField icon="github" onChange={val => this.handleChange('github', val)}>{github}</EditableField>*/}
-              {/*<EditableField icon="wechat" onChange={val => this.handleChange('wechat', val)}>{wechat}</EditableField>*/}
+            <div className="page-header">
+
             </div>
-            <div className="right-part">
-              <Descriptions title="个人信息" border>
-                <Descriptions className="Item" label="用户名">
-                  <Paragraph editable={{ onChange: this.onChange }} type="secondary">{username}</Paragraph>
+            <div className="page-content">
+              <div className="left-part">
+                <AvatarFrame className="avatar-frame" type="rect" size={180} />
+                {/*<EditableField icon="github" onChange={val => this.handleChange('github', val)}>{github}</EditableField>*/}
+                {/*<EditableField icon="wechat" onChange={val => this.handleChange('wechat', val)}>{wechat}</EditableField>*/}
+              </div>
+              <div className="right-part">
+                <Descriptions title="个人信息" border>
+                  <Descriptions className="Item" label="用户名">
+                    <Paragraph editable={{ onChange: this.onChange }} type="secondary">{username}</Paragraph>
+                  </Descriptions>
                 </Descriptions>
-              </Descriptions>
-              <Divider orientation="left">最近一年有 17788 次提交记录</Divider>
-              <CalendarMap />
+                <Divider orientation="left">最近一年有 17788 次提交记录</Divider>
+                <CalendarMap />
+              </div>
             </div>
           </div>
         )

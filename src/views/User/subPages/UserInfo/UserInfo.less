@@ -1,20 +1,32 @@
 .user-info-page {
   .bgc(white);
   position: relative;
-  display: flex;
   width: 100%;
-  height: 100%;
-  padding: 20px;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(15, 30, 66, 0.08);
   overflow: auto;
-  .avatar-frame {
-    display: block;
-    margin: 10px auto;
+  .page-header {
+    .bg-default(cover);
+    width: 100%;
+    height: 220px;
+    background-image: url(../../../../assets/images/header_banner6.jpg);
+    background-position: left -260px;
+    box-shadow: inset 0 0 10px rgba(0, 62, 168, 0.44);
+  }
+  .page-content {
+    display: flex;
+    padding: 20px;
   }
   .left-part {
+    position: relative;
     flex: 2;
     margin-right: 20px;
+    .avatar-frame {
+      .trans-horizontal-center();
+      position: absolute;
+      top: -100px;
+      display: block;
+    }
   }
   .right-part {
     flex: 6;
