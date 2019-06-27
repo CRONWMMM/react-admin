@@ -1,18 +1,17 @@
 import React from 'react'
-import { Typography, Descriptions, Divider } from 'antd'
+import { Descriptions, Divider } from 'antd'
 import { hot } from 'react-hot-loader/root'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 // components
 import AvatarFrame from '../../components/AvatarFrame/AvatarFrame'
 import CalendarMap from '../../components/CalendarMap/CalendarMap'
+import EditableField from '../../components/EditableField/EditableField'
 // import EditableField from '../../components/EditableField/EditableField'
 // actions
 import { updateUserInfo } from '../../../../store/action/userAction'
 // style
 import './UserInfo.less'
-
-const { Paragraph } = Typography
 
 class UserInfo extends React.Component {
     static propTypes = {
@@ -21,13 +20,29 @@ class UserInfo extends React.Component {
     }
 
     state = {
+        username: '不写 bug 的米公子',
         github: 'https://github.com/CRONWMMM',
         wechat: 'mty770224024'
     }
 
+    componentWillMount() {
+        const { username } = this.props
+        if (username) {
+            this.setState({
+                username
+            })
+        }
+    }
+
     onChange = str => {
+        this.setState({
+            username: str
+        })
+    }
+
+    onBlur = str => {
         const { resetUserName } = this.props
-        resetUserName(str)
+        setTimeout(resetUserName, 200, str)
     }
 
     handleChange = (stateKey, value) => {
@@ -38,8 +53,7 @@ class UserInfo extends React.Component {
 
     render() {
         // const { github, wechat } = this.state
-        let { username } = this.props
-        username = username || '不写 bug 的米公子'
+        let { username } = this.state
 
         return (
           <div className="user-info-page">
@@ -54,9 +68,9 @@ class UserInfo extends React.Component {
               </div>
               <div className="right-part">
                 <Descriptions title="个人信息" border>
-                  <Descriptions className="Item" label="用户名">
-                    <Paragraph editable={{ onChange: this.onChange }} type="secondary">{username}</Paragraph>
-                  </Descriptions>
+                  <Descriptions.Item label="用户名">
+                    <EditableField onChange={this.onChange} onBlur={this.onBlur}>{username}</EditableField>
+                  </Descriptions.Item>
                 </Descriptions>
                 <Divider orientation="left">最近一年有 17788 次提交记录</Divider>
                 <CalendarMap />

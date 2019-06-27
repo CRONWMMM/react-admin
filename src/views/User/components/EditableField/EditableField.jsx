@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { hot } from 'react-hot-loader/root'
 // components
-import { Icon, Input } from 'antd';
+import { Icon } from 'antd'
+import UnderlineInput from 'components/UnderlineInput/UnderlineInput'
 // style
 import './EditableField.less'
 
@@ -10,7 +12,8 @@ class EditableField extends React.Component {
         icon: PropTypes.string, // icon-type
         editable: PropTypes.bool, // editable or not
         children: PropTypes.string.isRequired, // slot 插槽
-        onChange: PropTypes.func // change-handler
+        onChange: PropTypes.func, // change-handler
+        onBlur: PropTypes.func // blur-handler
     }
 
     static defaultProps = {
@@ -23,29 +26,35 @@ class EditableField extends React.Component {
 
     constructor() {
         super()
-        this.inputRef = React.createRef()
+        this.underlineInputRef = React.createRef()
     }
 
     componentDidUpdate() {
         const { active } = this.state
-        active && this.inputRef.current.focus()
+        active && this.underlineInputRef.current.focus()
     }
 
-    handleBlur = () => {
-        this.setState({
-            active: false
-        })
+    handleBlur = (val) => {
+        const { onBlur } = this.props
+        onBlur && onBlur(val)
+        setTimeout(() => {
+            this.setState({
+                active: false
+            })
+        }, 200)
     }
 
     handleEnter = () => {
-        this.setState({
-            active: false
-        })
+        setTimeout(() => {
+            this.setState({
+                active: false
+            })
+        }, 200)
     }
 
-    handleChange = (e) => {
+    handleChange = (val) => {
         const { onChange } = this.props
-        onChange && onChange(e.currentTarget.value)
+        onChange && onChange(val)
     }
 
     handleEditBtnClick = () => {
@@ -64,8 +73,8 @@ class EditableField extends React.Component {
                 { icon ? <Icon className="field-icon" type={icon} /> : null }
                 {
                     active ?
-                        (<Input className="input"
-                                ref={this.inputRef}
+                        (<UnderlineInput className="input"
+                                ref={this.underlineInputRef}
                                 value={children}
                                 onBlur={this.handleBlur}
                                 onPressEnter={this.handleEnter}
@@ -80,4 +89,4 @@ class EditableField extends React.Component {
     }
 }
 
-export default EditableField
+export default hot(EditableField)
