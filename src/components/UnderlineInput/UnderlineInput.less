@@ -1,0 +1,17 @@
+.underline-input-component {
+  position: relative;
+  &::after {
+    .bgc(#1890ff);
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    margin: 0 auto;
+    transition: width 0.2s ease;
+  }
+  &.focused {
+    &::after {
+      width: 100%;
+    }
+  }
+}
